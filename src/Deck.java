@@ -2,15 +2,15 @@ import java.util.ArrayList;
 
 public class Deck {
 
-    private final ArrayList<Card> cards;
+    private  ArrayList<Card> cards;
 
     public Deck (ArrayList<Card> cards) {
         this.cards = cards;
     }
 
-    public static Deck shuffleDeck(Deck givenDeck) {
+    public void shuffle() {
 
-        ArrayList<Card> original = givenDeck.cards;
+        ArrayList<Card> original = cards;
         ArrayList<Card> shuffled = new ArrayList<>();
 
         int middle = original.size() / 2;
@@ -20,7 +20,7 @@ public class Deck {
             shuffled.add(original.get(i + middle)); // second half
         }
 
-        return new Deck(shuffled);
+        cards = shuffled;
     }
 
     public Card drawTopCard () {

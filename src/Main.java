@@ -69,26 +69,26 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int shuffleCount = 0;
 
-        while(shuffleCount < 1 || shuffleCount > 100) {
-          System.out.print("\n Enter Desired Shuffle Count (1 - 100): ");
-          String input = scanner.nextLine();
+        while (shuffleCount < 1 || shuffleCount > 100) {
+            System.out.print("\n Enter Desired Shuffle Count (1 - 100): ");
+            String input = scanner.nextLine();
 
-          try {
-              shuffleCount = Integer.parseInt(input);
+            try {
+                shuffleCount = Integer.parseInt(input);
 
-              if(shuffleCount > 100 || shuffleCount < 1) {
-                  System.out.println("Please Enter values between 1-100");
-              }
+                if (shuffleCount > 100 || shuffleCount < 1) {
+                    System.out.println("Please Enter values between 1-100");
+                }
 
-          }catch (NumberFormatException e) {
-              System.out.println("Invalid Input, please enter a number only.");
-          }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid Input, please enter a number only.");
+            }
 
         }
 
 
         while (shuffleCount > 0) {
-            playingDeck = Deck.shuffleDeck(playingDeck);
+            playingDeck.shuffle();
             shuffleCount -= 1;
         }
 
@@ -104,18 +104,18 @@ public class Main {
             try {
                 numberOfPlayers = Integer.parseInt(input);
 
-                if(numberOfPlayers < 2 || numberOfPlayers > 8) {
+                if (numberOfPlayers < 2 || numberOfPlayers > 8) {
                     System.out.println("Please Enter values between 2-8");
                 }
 
-            }catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Invalid Input, please enter a number only.");
             }
         }
 
         ArrayList<Player> players = new ArrayList<>(numberOfPlayers);
 
-        for (int i = 1; i  <= numberOfPlayers; i++) {
+        for (int i = 1; i <= numberOfPlayers; i++) {
             players.add(new Player("Player" + i, new Deck(new ArrayList<>())));
         }
 
@@ -124,13 +124,13 @@ public class Main {
         int round = 1;
         System.out.println(players);
 
-        while(players.size() > 1) {
+        while (players.size() > 1) {
 
             System.out.printf("Round %d", round);
 
             Deck playedCards = new Deck(new ArrayList<>());
 
-            for(Player player : players) {
+            for (Player player : players) {
                 playedCards.addLast(player.getDeck().drawTopCard());
             }
 
@@ -138,15 +138,15 @@ public class Main {
 
             int winner = 0;
 
-            for(int i = 1; i < players.size(); i++) {
+            for (int i = 1; i < players.size(); i++) {
 
-                if(playedCards.getCards().get(winner).compareTo(playedCards.getCards().get(i)) < 0) {
+                if (playedCards.getCards().get(winner).compareTo(playedCards.getCards().get(i)) < 0) {
                     winner = i;
                 }
 
             }
 
-            for(int i = 0; i < playedCards.getCards().size(); i++) {
+            for (int i = 0; i < playedCards.getCards().size(); i++) {
                 int currIdx = (winner + i) % playedCards.getCards().size();
                 players.get(winner).getDeck().addLast(playedCards.getCards().get(currIdx));
             }
@@ -162,8 +162,6 @@ public class Main {
             }
 
             round++;
-
-
         }
 
         System.out.println("Winner " + players.get(0));
