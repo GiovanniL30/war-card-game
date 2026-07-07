@@ -24,9 +24,8 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "playerName='" + playerName + '\'' +
-                ", deck=" + deck +
-                '}';
+        return playerName + "'s Deck\n" +
+                "----------------------------------------\n" +
+                deck;
     }
 }

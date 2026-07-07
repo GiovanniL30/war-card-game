@@ -19,10 +19,6 @@ public enum Rank {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public static Rank fromString(String rank) {
         switch (rank) {
             case "2": return TWO;
@@ -42,4 +38,9 @@ public enum Rank {
                 throw new IllegalArgumentException("Invalid rank: " + rank);
         }
     }
+
+    public int getValue() {
+        return value;
+    }
+
 }

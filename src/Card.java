@@ -8,11 +8,6 @@ public class Card implements Comparable<Card> {
         this.rank = rank;
     }
 
-    public Card(Card card) {
-        this.suit = card.suit;
-        this.rank = card.rank;
-    }
-
     public int getRankValue() {
         return this.rank.getValue();
     }

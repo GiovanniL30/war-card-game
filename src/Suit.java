@@ -10,10 +10,6 @@ public enum Suit {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public static Suit fromString(String suit) {
         switch (suit) {
             case "D": return DIAMONDS;
@@ -23,5 +19,9 @@ public enum Suit {
             default:
                 throw new IllegalArgumentException("Invalid suit: " + suit);
         }
+    }
+
+    public int getValue() {
+        return value;
     }
 }

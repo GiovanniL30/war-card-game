@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
 
 
-    public static Deck readInitialDeck() {
+    private static Deck readInitialDeck() {
 
         String filePath = "src/input.txt";
 
@@ -33,7 +33,7 @@ public class Main {
                 String suit = card[0];
                 String rank = card[1];
 
-                playingDeck.addLast(new Card(Suit.fromString(suit), Rank.fromString(rank)));
+                playingDeck.addCard(new Card(Suit.fromString(suit), Rank.fromString(rank)));
 
             }
 
@@ -46,94 +46,106 @@ public class Main {
 
     }
 
-    public static void distributeCards(Deck playingDeck, ArrayList<Player> players) {
+    private static void distributeCards(Deck playingDeck, ArrayList<Player> players) {
 
         int currentIdx = 0;
 
         while (!playingDeck.getCards().isEmpty()) {
-
-            Card card = playingDeck.drawTopCard();
-            players.get(currentIdx).getDeck().addLast(card);
+            Card card = playingDeck.drawCard();
+            players.get(currentIdx).getDeck().addCard(card);
             currentIdx = (currentIdx + 1) % players.size();
         }
 
+    }
+
+    private static int getNumberFromUser(String message) {
+
+        Scanner sc = new Scanner(System.in);
+        int input = 0;
+
+        try {
+            System.out.print(message + ": ");
+            input = Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid Input, please enter a number only.");
+        }
+
+        return input;
     }
 
     public static void main(String[] args) {
 
         Deck playingDeck = readInitialDeck();
 
-        System.out.printf("%n========== Initial Playing Deck ==========%n");
+        System.out.printf("%n");
+        System.out.printf("============================================================%n");
+        System.out.printf("                     WAR CARD GAME%n");
+        System.out.printf("============================================================%n");
+
         System.out.println(playingDeck);
 
-        Scanner scanner = new Scanner(System.in);
+
         int shuffleCount = 0;
 
         while (shuffleCount < 1 || shuffleCount > 100) {
-            System.out.print("\n Enter Desired Shuffle Count (1 - 100): ");
-            String input = scanner.nextLine();
+            shuffleCount = getNumberFromUser("Enter Desired Shuffle Count (1 - 100)");
 
-            try {
-                shuffleCount = Integer.parseInt(input);
-
-                if (shuffleCount > 100 || shuffleCount < 1) {
-                    System.out.println("Please Enter values between 1-100");
-                }
-
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid Input, please enter a number only.");
+            if (shuffleCount > 100 || shuffleCount < 1) {
+                System.out.println("Please Enter values between 1-100");
             }
-
         }
 
-
-        while (shuffleCount > 0) {
+        for (int i = 0; i < shuffleCount; i++) {
             playingDeck.shuffle();
-            shuffleCount -= 1;
         }
 
-        System.out.printf("%n========== Deck after Shuffle ==========%n");
+        System.out.printf("%n============================================================%n");
+        System.out.printf("PLAYING DECK AFTER SHUFFLE%n");
+        System.out.printf("============================================================%n");
         System.out.println(playingDeck);
 
         int numberOfPlayers = 0;
 
         while (numberOfPlayers < 2 || numberOfPlayers > 8) {
-            System.out.print("\n Enter Number of Players (2 - 8): ");
-            String input = scanner.nextLine();
+            numberOfPlayers = getNumberFromUser("Enter Number of Players (2 - 8)");
 
-            try {
-                numberOfPlayers = Integer.parseInt(input);
-
-                if (numberOfPlayers < 2 || numberOfPlayers > 8) {
-                    System.out.println("Please Enter values between 2-8");
-                }
-
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid Input, please enter a number only.");
+            if (numberOfPlayers < 2 || numberOfPlayers > 8) {
+                System.out.println("Please Enter values between 2-8");
             }
         }
 
         ArrayList<Player> players = new ArrayList<>(numberOfPlayers);
 
         for (int i = 1; i <= numberOfPlayers; i++) {
-            players.add(new Player("Player" + i, new Deck(new ArrayList<>())));
+            players.add(new Player("Player " + i, new Deck(new ArrayList<>())));
         }
 
         distributeCards(playingDeck, players);
 
         int round = 1;
-        System.out.println(players);
+
+        System.out.printf("%n============================================================%n");
+        System.out.printf("INITIAL PLAYER DECKS%n");
+        System.out.printf("============================================================%n\n");
+
+        for (Player player : players) {
+            System.out.println(player + "\n");
+        }
 
         while (players.size() > 1) {
 
-            System.out.printf("Round %d", round);
+            System.out.printf("%n============================================================%n");
+            System.out.printf("ROUND %-3d%n", round);
+            System.out.printf("============================================================%n");
 
             Deck playedCards = new Deck(new ArrayList<>());
 
             for (Player player : players) {
-                playedCards.addLast(player.getDeck().drawTopCard());
+                playedCards.addCard(player.getDeck().drawCard());
             }
 
+            System.out.printf("%nPlayed Cards%n");
+            System.out.printf("------------%n");
             System.out.println(playedCards);
 
             int winner = 0;
@@ -148,10 +160,20 @@ public class Main {
 
             for (int i = 0; i < playedCards.getCards().size(); i++) {
                 int currIdx = (winner + i) % playedCards.getCards().size();
-                players.get(winner).getDeck().addLast(playedCards.getCards().get(currIdx));
+                players.get(winner).getDeck().addBottom(playedCards.getCards().get(currIdx));
             }
 
-            System.out.println("\nRound Winner " + players.get(winner));
+            System.out.printf("%nRound Winner : %s%n",
+                    players.get(winner).getPlayerName());
+            System.out.printf("Winning Card  : %s%n",
+                    playedCards.getCards().get(winner));
+            System.out.printf("Cards Owned  : %d%n",
+                    players.get(winner).getDeck().getCards().size());
+
+
+            System.out.printf("%nWinner's Deck%n");
+            System.out.printf("-------------%n");
+            System.out.println(players.get(winner).getDeck());
 
             for (int i = players.size() - 1; i >= 0; i--) {
 
@@ -161,11 +183,34 @@ public class Main {
 
             }
 
+            System.out.printf("%nRemaining Players%n");
+            System.out.printf("-----------------%n");
+
+            for (Player player : players) {
+                System.out.printf("%-10s : %2d cards%n",
+                        player.getPlayerName(),
+                        player.getDeck().getCards().size());
+            }
+
             round++;
         }
 
-        System.out.println("Winner " + players.get(0));
-        System.out.println("Total Rounds" + round);
+        System.out.printf("%n============================================================%n");
+        System.out.printf("GAME OVER%n");
+        System.out.printf("============================================================%n");
+
+        System.out.printf("Winner        : %s%n",
+                players.get(0).getPlayerName());
+
+        System.out.printf("Total Rounds  : %d%n",
+                round);
+
+        System.out.printf("Cards Owned   : %d%n%n",
+                players.get(0).getDeck().getCards().size());
+
+        System.out.printf("Final Deck%n");
+        System.out.printf("----------%n");
+        System.out.println(players.get(0).getDeck());
 
     }
 

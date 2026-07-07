@@ -23,16 +23,16 @@ public class Deck {
         cards = shuffled;
     }
 
-    public Card drawTopCard () {
-        return cards.remove(0);
+    public Card drawCard () {
+        return cards.remove(cards.size() - 1);
     }
 
-    public void addLast (Card card) {
-        cards.add(cards.size(), card);
-    }
-
-    public void addFirst (Card card) {
+    public void addBottom (Card card) {
         cards.add(0, card);
+    }
+
+    public void addCard (Card card) {
+        cards.add(cards.size(), card);
     }
 
     public ArrayList<Card> getCards() {
