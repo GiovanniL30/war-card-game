@@ -23,24 +23,17 @@ public class Main {
 
 
             for (String cardInput : cards) {
-                String[] card = cardInput.split("-");
+                String[] cardStr = cardInput.split("-");
 
-                if (card.length != 2) {
-                    throw new RuntimeException("Invalid Card Detected: " + Arrays.toString(card));
+                if (cardStr.length != 2) {
+                    throw new RuntimeException("Invalid Card Detected: " + Arrays.toString(cardStr));
                 }
 
-                String suitStr = card[0];
-                String rankStr = card[1];
+                String suitStr = cardStr[0];
+                String rankStr = cardStr[1];
 
-                Suit suit;
-                Rank rank;
-
-                try {
-                    suit = Suit.fromString(suitStr);
-                    rank = Rank.fromString(rankStr);
-                } catch (IllegalArgumentException e) {
-                  throw new IllegalArgumentException(e.getMessage());
-                }
+                Suit suit = Suit.fromString(suitStr);
+                Rank rank = Rank.fromString(rankStr);
 
                 String key = suit + "-" + rank;
 
