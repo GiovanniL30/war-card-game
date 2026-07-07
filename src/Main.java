@@ -138,6 +138,7 @@ public class Main {
             System.out.printf("ROUND %-3d%n", round);
             System.out.printf("============================================================%n");
 
+            // Player Draw Cards
             Deck playedCards = new Deck(new ArrayList<>());
 
             for (Player player : players) {
@@ -148,6 +149,8 @@ public class Main {
             System.out.printf("------------%n");
             System.out.println(playedCards);
 
+
+            //Check for Round Winner
             int winner = 0;
 
             for (int i = 1; i < players.size(); i++) {
@@ -158,6 +161,7 @@ public class Main {
 
             }
 
+            //Place playedCards to the bottom of the winners deck
             for (int i = 0; i < playedCards.getCards().size(); i++) {
                 int currIdx = (winner + i) % playedCards.getCards().size();
                 players.get(winner).getDeck().addBottom(playedCards.getCards().get(currIdx));
@@ -175,9 +179,11 @@ public class Main {
             System.out.printf("-------------%n");
             System.out.println(players.get(winner).getDeck());
 
+
+            //Remove players with no Cards
             for (int i = players.size() - 1; i >= 0; i--) {
 
-                if (players.get(i).getDeck().getCards().isEmpty()) {
+                if (players.get(i).isDeckEmpty()) {
                     players.remove(i);
                 }
 
@@ -185,7 +191,6 @@ public class Main {
 
             System.out.printf("%nRemaining Players%n");
             System.out.printf("-----------------%n");
-
             for (Player player : players) {
                 System.out.printf("%-10s : %2d cards%n",
                         player.getPlayerName(),
@@ -199,18 +204,20 @@ public class Main {
         System.out.printf("GAME OVER%n");
         System.out.printf("============================================================%n");
 
+        Player gameWinner = players.get(0);
+
         System.out.printf("Winner        : %s%n",
-                players.get(0).getPlayerName());
+                gameWinner.getPlayerName());
 
         System.out.printf("Total Rounds  : %d%n",
                 round);
 
         System.out.printf("Cards Owned   : %d%n%n",
-                players.get(0).getDeck().getCards().size());
+                gameWinner.getDeck().getCards().size());
 
         System.out.printf("Final Deck%n");
         System.out.printf("----------%n");
-        System.out.println(players.get(0).getDeck());
+        System.out.println(gameWinner.getDeck());
 
     }
 
