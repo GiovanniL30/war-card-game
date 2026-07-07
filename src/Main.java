@@ -5,6 +5,12 @@ import java.util.*;
 
 public class Main {
 
+    private static final Scanner sc = new Scanner(System.in);
+    private static final int MAX_SHUFFLE = 10000;
+    private static final int MIN_SHUFFLE = 1;
+    private static final int MAX_PLAYERS = 52;
+    private static final int MIN_PLAYERS = 2;
+
     private static Deck readInitialDeck() {
 
         String filePath = "src/input.txt";
@@ -56,21 +62,18 @@ public class Main {
 
     }
 
-    private static void distributeCards(Deck playingDeck, ArrayList<Player> players) {
-
-        int currentIdx = 0;
-
-        while (!playingDeck.getCards().isEmpty()) {
-            Card card = playingDeck.drawCard();
-            players.get(currentIdx).getDeck().addCard(card);
-            currentIdx = (currentIdx + 1) % players.size();
+    private static void shuffleDeck(int shuffleCount, Deck playingDeck) {
+        for (int i = 0; i < shuffleCount; i++) {
+            playingDeck.shuffle();
         }
 
+        System.out.printf("%n============================================================%n");
+        System.out.printf("PLAYING DECK AFTER SHUFFLE%n");
+        System.out.printf("============================================================%n");
+        System.out.println(playingDeck);
     }
 
     private static int getNumberFromUser(String message) {
-
-        Scanner sc = new Scanner(System.in);
         int input = 0;
 
         try {
@@ -85,150 +88,67 @@ public class Main {
 
     public static void main(String[] args) {
 
+        if(MAX_PLAYERS > 52) {
+            System.out.println("Maximum allowed players is 52 only, please edit configuration");
+            System.exit(1);
+        }
+
         Deck playingDeck = readInitialDeck();
 
-        System.out.printf("%n");
-        System.out.printf("============================================================%n");
-        System.out.printf("                     WAR CARD GAME%n");
-        System.out.printf("============================================================%n");
-
+        System.out.printf("%n============================================================%n");
+        System.out.print("                     WAR CARD GAME");
+        System.out.printf("%n============================================================%n");
         System.out.println(playingDeck);
 
-
+        //Deck Shuffle
         int shuffleCount = 0;
 
-        while (shuffleCount < 1 || shuffleCount > 100) {
-            shuffleCount = getNumberFromUser("Enter Desired Shuffle Count (1 - 100)");
+        while (shuffleCount < MIN_SHUFFLE || shuffleCount > MAX_SHUFFLE) {
+            shuffleCount = getNumberFromUser(String.format("Enter Desired Shuffle Count (%d- %d)", MIN_SHUFFLE, MAX_SHUFFLE));
 
-            if (shuffleCount > 100 || shuffleCount < 1) {
-                System.out.println("Please Enter values between 1-100");
+            if (shuffleCount < MIN_SHUFFLE || shuffleCount > MAX_SHUFFLE) {
+                System.out.printf("Please Enter values between %d-%d%n", MIN_SHUFFLE, MAX_SHUFFLE);
             }
         }
 
-        for (int i = 0; i < shuffleCount; i++) {
-            playingDeck.shuffle();
-        }
+        shuffleDeck(shuffleCount, playingDeck);
 
-        System.out.printf("%n============================================================%n");
-        System.out.printf("PLAYING DECK AFTER SHUFFLE%n");
-        System.out.printf("============================================================%n");
-        System.out.println(playingDeck);
-
+        //Number of Players
         int numberOfPlayers = 0;
 
-        while (numberOfPlayers < 2 || numberOfPlayers > 8) {
-            numberOfPlayers = getNumberFromUser("Enter Number of Players (2 - 8)");
+        while (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS) {
+            numberOfPlayers = getNumberFromUser(String.format("Enter Number of Players (%d - %d)", MIN_PLAYERS, MAX_PLAYERS));
 
-            if (numberOfPlayers < 2 || numberOfPlayers > 8) {
-                System.out.println("Please Enter values between 2-8");
+            if (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS) {
+                System.out.printf("Please Enter values between %d-%d%n", MIN_PLAYERS, MAX_PLAYERS);
             }
         }
 
-        ArrayList<Player> players = new ArrayList<>(numberOfPlayers);
+        Game game = new Game(playingDeck, numberOfPlayers);
+        game.distributeCards();
 
-        for (int i = 1; i <= numberOfPlayers; i++) {
-            players.add(new Player("Player " + i, new Deck(new ArrayList<>())));
-        }
-
-        distributeCards(playingDeck, players);
-
-        int round = 1;
-
-        System.out.printf("%n============================================================%n");
-        System.out.printf("INITIAL PLAYER DECKS%n");
-        System.out.printf("============================================================%n\n");
-
-        for (Player player : players) {
-            System.out.println(player + "\n");
-        }
-
-        while (players.size() > 1) {
-
-            System.out.printf("%n============================================================%n");
-            System.out.printf("ROUND %-3d%n", round);
-            System.out.printf("============================================================%n");
-
-            // Player Draw Cards
-            Deck playedCards = new Deck(new ArrayList<>());
-
-            for (Player player : players) {
-                playedCards.addCard(player.getDeck().drawCard());
-            }
-
-            System.out.printf("%nPlayed Cards%n");
-            System.out.printf("------------%n");
-            System.out.println(playedCards);
-
-
-            //Check for Round Winner
-            int winner = 0;
-
-            for (int i = 1; i < players.size(); i++) {
-
-                if (playedCards.getCards().get(winner).compareTo(playedCards.getCards().get(i)) < 0) {
-                    winner = i;
-                }
-
-            }
-
-            //Place playedCards to the bottom of the winners deck
-            for (int i = 0; i < playedCards.getCards().size(); i++) {
-                int currIdx = (winner + i) % playedCards.getCards().size();
-                players.get(winner).getDeck().addBottom(playedCards.getCards().get(currIdx));
-            }
-
-            System.out.printf("%nRound Winner : %s%n",
-                    players.get(winner).getPlayerName());
-            System.out.printf("Winning Card  : %s%n",
-                    playedCards.getCards().get(winner));
-            System.out.printf("Cards Owned  : %d%n",
-                    players.get(winner).getDeck().getCards().size());
-
-
-            System.out.printf("%nWinner's Deck%n");
-            System.out.printf("-------------%n");
-            System.out.println(players.get(winner).getDeck());
-
-
-            //Remove players with no Cards
-            for (int i = players.size() - 1; i >= 0; i--) {
-
-                if (players.get(i).isDeckEmpty()) {
-                    players.remove(i);
-                }
-
-            }
-
-            System.out.printf("%nRemaining Players%n");
-            System.out.printf("-----------------%n");
-            for (Player player : players) {
-                System.out.printf("%-10s : %2d cards%n",
-                        player.getPlayerName(),
-                        player.getDeck().getCards().size());
-            }
-
-            round++;
+        while (game.getActivePlayersSize() > 1) {
+            game.startRound();
         }
 
         System.out.printf("%n============================================================%n");
         System.out.printf("GAME OVER%n");
         System.out.printf("============================================================%n");
 
-        Player gameWinner = players.get(0);
+        Player gameWinner = game.getGameWinner();
 
-        System.out.printf("Winner        : %s%n",
-                gameWinner.getPlayerName());
-
-        System.out.printf("Total Rounds  : %d%n",
-                round);
-
-        System.out.printf("Cards Owned   : %d%n%n",
-                gameWinner.getDeck().getCards().size());
-
-        System.out.printf("Final Deck%n");
-        System.out.printf("----------%n");
-        System.out.println(gameWinner.getDeck());
-
+        if (gameWinner != null) {
+            System.out.printf("Winner        : %s%n", gameWinner.getPlayerName());
+            System.out.printf("Total Rounds  : %d%n", game.getRound());
+            System.out.printf("Cards Owned   : %d%n%n", gameWinner.getDeck().getCards().size());
+            System.out.printf("Final Deck%n");
+            System.out.printf("----------%n");
+            System.out.println(gameWinner.getDeck());
+        }else {
+            System.out.printf("No winner was determined.%n");
+            System.out.printf("The game ended without a player collecting all 52 cards.%n");
+            System.out.printf("Total Rounds : %d%n", game.getRound());
+        }
     }
 
 

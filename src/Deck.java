@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class Deck {
 
-    private  ArrayList<Card> cards;
+    private ArrayList<Card> cards;
 
-    public Deck (ArrayList<Card> cards) {
+    public Deck(ArrayList<Card> cards) {
         this.cards = cards;
     }
 
@@ -23,15 +23,15 @@ public class Deck {
         cards = shuffled;
     }
 
-    public Card drawCard () {
+    public Card drawCard() {
         return cards.remove(cards.size() - 1);
     }
 
-    public void addBottom (Card card) {
+    public void addBottom(Card card) {
         cards.add(0, card);
     }
 
-    public void addCard (Card card) {
+    public void addCard(Card card) {
         cards.add(cards.size(), card);
     }
 
