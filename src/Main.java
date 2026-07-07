@@ -1,12 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-
 
     private static Deck readInitialDeck() {
 
@@ -18,10 +15,12 @@ public class Main {
             String[] cards = line.split(",");
 
             if (cards.length != 52) {
-                throw new RuntimeException("Invalid Cards Length, Expected 52, Given " + cards.length);
+                throw new RuntimeException("Invalid Cards Length: Expected 52, Given " + cards.length);
             }
 
             Deck playingDeck = new Deck(new ArrayList<>());
+            Set<String> seenCards = new HashSet<>();
+
 
             for (String cardInput : cards) {
                 String[] card = cardInput.split("-");
@@ -30,18 +29,36 @@ public class Main {
                     throw new RuntimeException("Invalid Card Detected: " + Arrays.toString(card));
                 }
 
-                String suit = card[0];
-                String rank = card[1];
+                String suitStr = card[0];
+                String rankStr = card[1];
 
-                playingDeck.addCard(new Card(Suit.fromString(suit), Rank.fromString(rank)));
+                Suit suit;
+                Rank rank;
 
+                try {
+                    suit = Suit.fromString(suitStr);
+                    rank = Rank.fromString(rankStr);
+                } catch (IllegalArgumentException e) {
+                  throw new IllegalArgumentException(e.getMessage());
+                }
+
+                String key = suit + "-" + rank;
+
+                if (!seenCards.add(key)) {
+                    throw new RuntimeException("Duplicate Card Detected: " + key);
+                }
+
+                playingDeck.addCard(new Card(suit, rank));
             }
 
             return playingDeck;
 
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (RuntimeException | IOException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Program Terminated.");
+            System.exit(1);
+            return null;
         }
 
     }
