@@ -28,7 +28,7 @@ public class Game {
         Deck playedCards = new Deck(new ArrayList<>());
 
         for (Player player : players) {
-            playedCards.addCard(player.getDeck().drawCard());
+            playedCards.addCard(player.getDeck().drawBottomCard());
         }
 
         System.out.printf("%nPlayed Cards%n");
@@ -81,7 +81,7 @@ public class Game {
         int currentIdx = 0;
 
         while (!playingDeck.getCards().isEmpty()) {
-            Card card = playingDeck.drawCard();
+            Card card = playingDeck.drawTopCard();
             players.get(currentIdx).getDeck().addCard(card);
             currentIdx = (currentIdx + 1) % players.size();
         }

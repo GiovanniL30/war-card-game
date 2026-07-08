@@ -23,8 +23,12 @@ public class Deck {
         cards = shuffled;
     }
 
-    public Card drawCard() {
+    public Card drawBottomCard() {
         return cards.remove(cards.size() - 1);
+    }
+
+    public Card drawTopCard() {
+        return cards.remove(0);
     }
 
     public void addBottom(Card card) {
