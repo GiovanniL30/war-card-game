@@ -18,25 +18,28 @@ public class Main {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 
             String line = reader.readLine();
-            String[] cards = line.split(",");
 
-            if (cards.length != 52) {
-                throw new RuntimeException("Invalid Cards Length: Expected 52, Given " + cards.length);
+            if (line == null || line.trim().isEmpty()) {
+                throw new RuntimeException("Input file is empty.");
             }
+
+            StringTokenizer inputTokenizer = new StringTokenizer(line, ",");
 
             Deck playingDeck = new Deck(new ArrayList<>());
             Set<String> seenCards = new HashSet<>();
 
+            while (inputTokenizer.hasMoreTokens()) {
 
-            for (String cardInput : cards) {
-                String[] cardStr = cardInput.split("-");
+                String cardInput = inputTokenizer.nextToken();
 
-                if (cardStr.length != 2) {
-                    throw new RuntimeException("Invalid Card Detected: " + Arrays.toString(cardStr));
+                StringTokenizer cardTokenizer = new StringTokenizer(cardInput, "-");
+
+                if (cardTokenizer.countTokens() != 2) {
+                    throw new RuntimeException("Invalid Card Detected: " + cardInput);
                 }
 
-                String suitStr = cardStr[0];
-                String rankStr = cardStr[1];
+                String suitStr = cardTokenizer.nextToken();
+                String rankStr = cardTokenizer.nextToken();
 
                 Suit suit = Suit.fromString(suitStr);
                 Rank rank = Rank.fromString(rankStr);
@@ -50,8 +53,13 @@ public class Main {
                 playingDeck.addCard(new Card(suit, rank));
             }
 
-            return playingDeck;
+            if (playingDeck.getCards().size() != 52) {
+                throw new RuntimeException(
+                        "Invalid Cards Length: Expected 52, Given "
+                                + playingDeck.getCards().size());
+            }
 
+            return playingDeck;
 
         } catch (RuntimeException | IOException e) {
             System.out.println(e.getMessage());
@@ -59,7 +67,6 @@ public class Main {
             System.exit(1);
             return null;
         }
-
     }
 
     private static void shuffleDeck(int shuffleCount, Deck playingDeck) {
@@ -88,7 +95,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        if(MAX_PLAYERS > 52) {
+        if (MAX_PLAYERS > 52) {
             System.out.println("Maximum allowed players is 52 only, please edit configuration");
             System.exit(1);
         }
@@ -144,7 +151,7 @@ public class Main {
             System.out.printf("Final Deck%n");
             System.out.printf("----------%n");
             System.out.println(gameWinner.getDeck());
-        }else {
+        } else {
             System.out.printf("No winner was determined.%n");
             System.out.printf("The game ended without a player collecting all 52 cards.%n");
             System.out.printf("Total Rounds : %d%n", game.getRound());
