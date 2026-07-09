@@ -1,3 +1,7 @@
+import model.Card;
+import model.Deck;
+import model.Player;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -18,7 +22,7 @@ public class Game {
             players.add(new Player("Player " + i, new Deck(new ArrayList<>())));
         }
 
-        return  players;
+        return players;
     }
 
     public void startRound() {
@@ -45,21 +49,21 @@ public class Game {
 
         for (int i = 1; i < players.size(); i++) {
 
-            if (playedCards.getCards().get(winner).compareTo(playedCards.getCards().get(i)) < 0) {
+            if (playedCards.get(winner).compareTo(playedCards.get(i)) < 0) {
                 winner = i;
             }
 
         }
 
         //Place playedCards to the bottom of the winners deck
-        for (int i = 0; i < playedCards.getCards().size(); i++) {
-            int currIdx = (winner + i) % playedCards.getCards().size();
-            players.get(winner).getDeck().addBottom(playedCards.getCards().get(currIdx));
+        for (int i = 0; i < playedCards.size(); i++) {
+            int currIdx = (winner + i) % playedCards.size();
+            players.get(winner).getDeck().addBottom(playedCards.get(currIdx));
         }
 
         System.out.printf("%nRound Winner : %s%n", players.get(winner).getPlayerName());
-        System.out.printf("Winning Card  : %s%n", playedCards.getCards().get(winner));
-        System.out.printf("Cards Owned  : %d%n", players.get(winner).getDeck().getCards().size());
+        System.out.printf("Winning Card  : %s%n", playedCards.get(winner));
+        System.out.printf("Cards Owned  : %d%n", players.get(winner).getDeck().size());
 
         System.out.printf("%nWinner's Deck%n");
         System.out.printf("-------------%n");
@@ -77,14 +81,14 @@ public class Game {
         System.out.printf("%nRemaining Players%n");
         System.out.printf("-----------------%n");
         for (Player player : players) {
-            System.out.printf("%-10s : %2d cards%n", player.getPlayerName(), player.getDeck().getCards().size());
+            System.out.printf("%-10s : %2d cards%n", player.getPlayerName(), player.getDeck().size());
         }
     }
 
     public void distributeCards() {
         int currentIdx = 0;
 
-        while (!playingDeck.getCards().isEmpty()) {
+        while (!playingDeck.isEmpty()) {
             Card card = playingDeck.drawTopCard();
             players.get(currentIdx).getDeck().addCard(card);
             currentIdx = (currentIdx + 1) % players.size();
@@ -108,14 +112,8 @@ public class Game {
     }
 
     public Player getGameWinner() {
-        if (players.size() > 1) {
-            System.out.println("There is no game winner yet");
-            return null;
-        }
-
-        return players.get(0);
+        return players.size() == 1 ? players.get(0) : null;
     }
-
 
 
 }

@@ -1,3 +1,9 @@
+import enums.Rank;
+import enums.Suit;
+import model.Card;
+import model.Deck;
+import model.Player;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,16 +12,58 @@ import java.util.*;
 public class Main {
 
     private static final Scanner sc = new Scanner(System.in);
+    private static final String INPUT_PATH = "src/input.txt";
     private static final int MAX_SHUFFLE = 10000;
     private static final int MIN_SHUFFLE = 1;
-    private static final int MAX_PLAYERS = 52;
+    private static final int MAX_PLAYERS = 8;
     private static final int MIN_PLAYERS = 2;
+    private static final int DECK_SIZE = 52;
+
+    public static void main(String[] args) {
+
+        if (MAX_PLAYERS > 52) {
+            System.out.println("Maximum allowed players is 52 only, please edit configuration");
+            System.exit(1);
+        }
+
+        Deck playingDeck = readInitialDeck();
+
+        printHeader("WAR CARD GAME");
+
+        System.out.println(playingDeck);
+
+        int shuffleCount = getShuffleCount();
+        int playerCount = getPlayerCount();
+
+        shuffleDeck(shuffleCount, playingDeck);
+
+        Game game = new Game(playingDeck, playerCount);
+        game.distributeCards();
+
+        while (game.getActivePlayersSize() > 1) {
+            game.startRound();
+        }
+
+        Player gameWinner = game.getGameWinner();
+
+        printHeader("GAME OVER");
+        if (gameWinner != null) {
+            System.out.printf("Winner        : %s%n", gameWinner.getPlayerName());
+            System.out.printf("Total Rounds  : %d%n", game.getRound());
+            System.out.printf("Cards Owned   : %d%n%n", gameWinner.getDeck().size());
+            System.out.printf("Final Deck%n");
+            System.out.printf("----------%n");
+            System.out.println(gameWinner.getDeck());
+        } else {
+            System.out.printf("No winner was determined.%n");
+            System.out.printf("The game ended without a player collecting all 52 cards.%n");
+            System.out.printf("Total Rounds : %d%n", game.getRound());
+        }
+    }
 
     private static Deck readInitialDeck() {
 
-        String filePath = "src/input.txt";
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_PATH))) {
 
             String line = reader.readLine();
 
@@ -53,10 +101,8 @@ public class Main {
                 playingDeck.addCard(new Card(suit, rank));
             }
 
-            if (playingDeck.getCards().size() != 52) {
-                throw new RuntimeException(
-                        "Invalid Cards Length: Expected 52, Given "
-                                + playingDeck.getCards().size());
+            if (playingDeck.size() != DECK_SIZE) {
+                throw new RuntimeException("Invalid Cards Length: Expected " + DECK_SIZE + ", Given " + playingDeck.size());
             }
 
             return playingDeck;
@@ -74,9 +120,7 @@ public class Main {
             playingDeck.shuffle();
         }
 
-        System.out.printf("%n============================================================%n");
-        System.out.printf("PLAYING DECK AFTER SHUFFLE%n");
-        System.out.printf("============================================================%n");
+        printHeader("PLAYING DECK AFTER SHUFFLE");
         System.out.println(playingDeck);
     }
 
@@ -93,34 +137,23 @@ public class Main {
         return input;
     }
 
-    public static void main(String[] args) {
+    private static int getShuffleCount() {
 
-        if (MAX_PLAYERS > 52) {
-            System.out.println("Maximum allowed players is 52 only, please edit configuration");
-            System.exit(1);
-        }
-
-        Deck playingDeck = readInitialDeck();
-
-        System.out.printf("%n============================================================%n");
-        System.out.print("                     WAR CARD GAME");
-        System.out.printf("%n============================================================%n");
-        System.out.println(playingDeck);
-
-        //Deck Shuffle
         int shuffleCount = 0;
 
         while (shuffleCount < MIN_SHUFFLE || shuffleCount > MAX_SHUFFLE) {
-            shuffleCount = getNumberFromUser(String.format("Enter Desired Shuffle Count (%d- %d)", MIN_SHUFFLE, MAX_SHUFFLE));
+
+            shuffleCount = getNumberFromUser(String.format("Enter Desired Shuffle Count (%d-%d)", MIN_SHUFFLE, MAX_SHUFFLE));
 
             if (shuffleCount < MIN_SHUFFLE || shuffleCount > MAX_SHUFFLE) {
-                System.out.printf("Please Enter values between %d-%d%n", MIN_SHUFFLE, MAX_SHUFFLE);
+                System.out.printf("Please enter a value between %d and %d%n", MIN_SHUFFLE, MAX_SHUFFLE);
             }
         }
 
-        shuffleDeck(shuffleCount, playingDeck);
+        return shuffleCount;
+    }
 
-        //Number of Players
+    private static int getPlayerCount() {
         int numberOfPlayers = 0;
 
         while (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS) {
@@ -131,31 +164,13 @@ public class Main {
             }
         }
 
-        Game game = new Game(playingDeck, numberOfPlayers);
-        game.distributeCards();
+        return numberOfPlayers;
+    }
 
-        while (game.getActivePlayersSize() > 1) {
-            game.startRound();
-        }
-
+    private static void printHeader(String title) {
         System.out.printf("%n============================================================%n");
-        System.out.printf("GAME OVER%n");
+        System.out.printf("%s%n", title);
         System.out.printf("============================================================%n");
-
-        Player gameWinner = game.getGameWinner();
-
-        if (gameWinner != null) {
-            System.out.printf("Winner        : %s%n", gameWinner.getPlayerName());
-            System.out.printf("Total Rounds  : %d%n", game.getRound());
-            System.out.printf("Cards Owned   : %d%n%n", gameWinner.getDeck().getCards().size());
-            System.out.printf("Final Deck%n");
-            System.out.printf("----------%n");
-            System.out.println(gameWinner.getDeck());
-        } else {
-            System.out.printf("No winner was determined.%n");
-            System.out.printf("The game ended without a player collecting all 52 cards.%n");
-            System.out.printf("Total Rounds : %d%n", game.getRound());
-        }
     }
 
 

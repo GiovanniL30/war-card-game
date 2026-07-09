@@ -1,3 +1,5 @@
+package model;
+
 public class Player {
 
     private final String playerName;
@@ -17,7 +19,7 @@ public class Player {
     }
 
     public boolean isDeckEmpty() {
-        return deck.getCards().isEmpty();
+        return deck.isEmpty();
     }
 
     @Override

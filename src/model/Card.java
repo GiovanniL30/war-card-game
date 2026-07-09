@@ -1,3 +1,8 @@
+package model;
+
+import enums.Rank;
+import enums.Suit;
+
 public class Card implements Comparable<Card> {
 
     private final Suit suit;

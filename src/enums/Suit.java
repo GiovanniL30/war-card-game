@@ -1,3 +1,5 @@
+package enums;
+
 public enum Suit {
     CLUBS(1),
     SPADES(2),

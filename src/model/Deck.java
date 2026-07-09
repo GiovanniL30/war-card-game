@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 
 public class Deck {
@@ -24,6 +26,10 @@ public class Deck {
     }
 
     public Card drawBottomCard() {
+
+        if(cards.isEmpty())
+            throw new IllegalStateException("Deck is empty");
+
         return cards.remove(cards.size() - 1);
     }
 
@@ -39,8 +45,16 @@ public class Deck {
         cards.add(cards.size(), card);
     }
 
-    public ArrayList<Card> getCards() {
-        return cards;
+    public int size() {
+        return cards.size();
+    }
+
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
+
+    public Card get(int index) {
+        return cards.get(index);
     }
 
     @Override
