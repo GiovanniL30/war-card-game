@@ -7,14 +7,18 @@ public class Game {
 
     public Game(Deck playingDeck, int playerCount) {
         this.playingDeck = playingDeck;
+        this.players = createPlayers(playerCount);
+        this.round = 0;
+    }
 
-        players = new ArrayList<>(playerCount);
+    private ArrayList<Player> createPlayers(int playerCount) {
+        ArrayList<Player> players = new ArrayList<>(playerCount);
 
         for (int i = 1; i <= playerCount; i++) {
             players.add(new Player("Player " + i, new Deck(new ArrayList<>())));
         }
 
-        round = 0;
+        return  players;
     }
 
     public void startRound() {
