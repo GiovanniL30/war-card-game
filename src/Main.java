@@ -30,7 +30,7 @@ public class Main {
 
             while (inputTokenizer.hasMoreTokens()) {
 
-                String cardInput = inputTokenizer.nextToken();
+                String cardInput = inputTokenizer.nextToken().trim();
 
                 StringTokenizer cardTokenizer = new StringTokenizer(cardInput, "-");
 
@@ -38,8 +38,8 @@ public class Main {
                     throw new RuntimeException("Invalid Card Detected: " + cardInput);
                 }
 
-                String suitStr = cardTokenizer.nextToken();
-                String rankStr = cardTokenizer.nextToken();
+                String suitStr = cardTokenizer.nextToken().trim();
+                String rankStr = cardTokenizer.nextToken().trim();
 
                 Suit suit = Suit.fromString(suitStr);
                 Rank rank = Rank.fromString(rankStr);
@@ -85,7 +85,7 @@ public class Main {
 
         try {
             System.out.print(message + ": ");
-            input = Integer.parseInt(sc.nextLine());
+            input = Integer.parseInt(sc.nextLine().trim());
         } catch (NumberFormatException e) {
             System.out.println("Invalid Input, please enter a number only.");
         }
