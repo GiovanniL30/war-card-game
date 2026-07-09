@@ -83,7 +83,7 @@ public class Main {
                 StringTokenizer cardTokenizer = new StringTokenizer(cardInput, "-");
 
                 if (cardTokenizer.countTokens() != 2) {
-                    throw new RuntimeException("Invalid Card Detected: " + cardInput);
+                    throw new RuntimeException("Invalid Card Detected: " + cardTokenizer);
                 }
 
                 String suitStr = cardTokenizer.nextToken().trim();
