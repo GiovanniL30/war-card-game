@@ -1,15 +1,17 @@
 package enums;
 
 public enum Suit {
-    CLUBS(1),
-    SPADES(2),
-    HEARTS(3),
-    DIAMONDS(4);
+    CLUBS(1, "♣"),
+    SPADES(2, "♠"),
+    HEARTS(3, "♥"),
+    DIAMONDS(4, "♦");
 
     private final int value;
+    private final String symbol;
 
-    Suit(int value) {
+    Suit(int value, String symbol) {
         this.value = value;
+        this.symbol = symbol;
     }
 
     public static Suit fromString(String suit) {
@@ -29,7 +31,6 @@ public enum Suit {
 
     @Override
     public String toString() {
-        String text = this.name();
-        return text.charAt(0) + text.substring(1).toLowerCase();
+        return symbol;
     }
 }

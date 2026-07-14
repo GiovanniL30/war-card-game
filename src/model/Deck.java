@@ -62,7 +62,7 @@ public class Deck {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < cards.size(); i++) {
-            sb.append(String.format("%-24s", cards.get(i)));
+            sb.append(String.format("%-10s", cards.get(i)));
 
             if ((i + 1) % 13 == 0) {
                 sb.append("\n");
