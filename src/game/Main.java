@@ -21,7 +21,7 @@ public class Main {
     private static final int MIN_PLAYERS = 2;
     private static final int DECK_SIZE = 52;
 
-    public static void main(String[] args) {
+    static void main() {
 
         if (MAX_PLAYERS > 52) {
             System.out.println("Maximum allowed players is 52 only, please edit configuration");
@@ -33,7 +33,7 @@ public class Main {
         printHeader("WAR CARD GAME");
         System.out.println(playingDeck);
 
-        int shuffleCount = getNumberInputInfiniteUntilCorrect("Enter Desired Shuffle Count", MIN_SHUFFLE, MAX_SHUFFLE );
+        int shuffleCount = getNumberInputInfiniteUntilCorrect("Enter Desired Shuffle Count", MIN_SHUFFLE, MAX_SHUFFLE);
         shuffleDeck(shuffleCount, playingDeck);
 
         int playerCount = getNumberInputInfiniteUntilCorrect("Enter Number of Players", MIN_PLAYERS, MAX_PLAYERS);
@@ -127,17 +127,16 @@ public class Main {
     }
 
 
-
     private static int getNumberInputInfiniteUntilCorrect(String message, int minValue, int maxValue) {
 
         int input = 0;
 
-        while(input < minValue || input > maxValue) {
+        while (input < minValue || input > maxValue) {
             try {
                 System.out.print(message + " (" + minValue + "-" + maxValue + "): ");
                 input = Integer.parseInt(sc.nextLine().trim());
 
-                if(input < minValue || input > maxValue) {
+                if (input < minValue || input > maxValue) {
                     System.out.printf("Please enter a value between %d and %d%n", minValue, maxValue);
                 }
 
@@ -146,7 +145,7 @@ public class Main {
             }
         }
 
-        return  input;
+        return input;
     }
 
     private static void printHeader(String title) {
