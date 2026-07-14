@@ -29,13 +29,12 @@ public class Main {
         Deck playingDeck = readInitialDeck();
 
         printHeader("WAR CARD GAME");
-
         System.out.println(playingDeck);
 
-        int shuffleCount = getShuffleCount();
-        int playerCount = getPlayerCount();
-
+        int shuffleCount = getNumberInputInfiniteUntilCorrect("Enter Desired Shuffle Count", MIN_SHUFFLE, MAX_SHUFFLE );
         shuffleDeck(shuffleCount, playingDeck);
+
+        int playerCount = getNumberInputInfiniteUntilCorrect("Enter Number of Players", MIN_PLAYERS, MAX_PLAYERS);
 
         Game game = new Game(playingDeck, playerCount);
         game.distributeCards();
@@ -119,52 +118,31 @@ public class Main {
         for (int i = 0; i < shuffleCount; i++) {
             playingDeck.shuffle();
         }
-
         printHeader("PLAYING DECK AFTER SHUFFLE");
         System.out.println(playingDeck);
     }
 
-    private static int getNumberFromUser(String message) {
+
+
+    private static int getNumberInputInfiniteUntilCorrect(String message, int minValue, int maxValue) {
+
         int input = 0;
 
-        try {
-            System.out.print(message + ": ");
-            input = Integer.parseInt(sc.nextLine().trim());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid Input, please enter a number only.");
-        }
+        while(input < minValue || input > maxValue) {
+            try {
+                System.out.print(message + " (" + minValue + "-" + maxValue + "): ");
+                input = Integer.parseInt(sc.nextLine().trim());
 
-        return input;
-    }
+                if(input < minValue || input > maxValue) {
+                    System.out.printf("Please enter a value between %d and %d%n", minValue, maxValue);
+                }
 
-    private static int getShuffleCount() {
-
-        int shuffleCount = 0;
-
-        while (shuffleCount < MIN_SHUFFLE || shuffleCount > MAX_SHUFFLE) {
-
-            shuffleCount = getNumberFromUser(String.format("Enter Desired Shuffle Count (%d-%d)", MIN_SHUFFLE, MAX_SHUFFLE));
-
-            if (shuffleCount < MIN_SHUFFLE || shuffleCount > MAX_SHUFFLE) {
-                System.out.printf("Please enter a value between %d and %d%n", MIN_SHUFFLE, MAX_SHUFFLE);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid Input, please enter a number only.");
             }
         }
 
-        return shuffleCount;
-    }
-
-    private static int getPlayerCount() {
-        int numberOfPlayers = 0;
-
-        while (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS) {
-            numberOfPlayers = getNumberFromUser(String.format("Enter Number of Players (%d - %d)", MIN_PLAYERS, MAX_PLAYERS));
-
-            if (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS) {
-                System.out.printf("Please Enter values between %d-%d%n", MIN_PLAYERS, MAX_PLAYERS);
-            }
-        }
-
-        return numberOfPlayers;
+        return  input;
     }
 
     private static void printHeader(String title) {
