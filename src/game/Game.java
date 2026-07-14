@@ -1,12 +1,15 @@
+package game;
+
 import model.Card;
 import model.Deck;
 import model.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
     private final Deck playingDeck;
-    private final ArrayList<Player> players;
+    private final List<Player> players;
     private int round;
 
     public Game(Deck playingDeck, int playerCount) {
@@ -15,8 +18,8 @@ public class Game {
         this.round = 0;
     }
 
-    private ArrayList<Player> createPlayers(int playerCount) {
-        ArrayList<Player> players = new ArrayList<>(playerCount);
+    private List<Player> createPlayers(int playerCount) {
+        List<Player> players = new ArrayList<>(playerCount);
 
         for (int i = 1; i <= playerCount; i++) {
             players.add(new Player("Player " + i, new Deck(new ArrayList<>())));
@@ -36,7 +39,7 @@ public class Game {
         Deck playedCards = new Deck(new ArrayList<>());
 
         for (Player player : players) {
-            playedCards.addCard(player.getDeck().drawBottomCard());
+            playedCards.addLast(player.getDeck().drawLastCard());
         }
 
         System.out.printf("%nPlayed Cards%n");
@@ -58,7 +61,7 @@ public class Game {
         //Place playedCards to the bottom of the winners deck
         for (int i = 0; i < playedCards.size(); i++) {
             int currIdx = (winner + i) % playedCards.size();
-            players.get(winner).getDeck().addBottom(playedCards.get(currIdx));
+            players.get(winner).getDeck().addFirst(playedCards.get(currIdx));
         }
 
         System.out.printf("%nRound Winner : %s%n", players.get(winner).getPlayerName());
@@ -89,8 +92,8 @@ public class Game {
         int currentIdx = 0;
 
         while (!playingDeck.isEmpty()) {
-            Card card = playingDeck.drawTopCard();
-            players.get(currentIdx).getDeck().addCard(card);
+            Card card = playingDeck.drawFirstCard();
+            players.get(currentIdx).getDeck().addLast(card);
             currentIdx = (currentIdx + 1) % players.size();
         }
 

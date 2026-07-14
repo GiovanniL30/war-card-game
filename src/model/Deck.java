@@ -1,19 +1,20 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Deck {
 
-    private ArrayList<Card> cards;
+    private List<Card> cards;
 
-    public Deck(ArrayList<Card> cards) {
+    public Deck(List<Card> cards) {
         this.cards = cards;
     }
 
     public void shuffle() {
 
-        ArrayList<Card> original = cards;
-        ArrayList<Card> shuffled = new ArrayList<>();
+        List<Card> original = cards;
+        List<Card> shuffled = new ArrayList<>();
 
         int middle = original.size() / 2;
 
@@ -25,7 +26,7 @@ public class Deck {
         cards = shuffled;
     }
 
-    public Card drawBottomCard() {
+    public Card drawLastCard() {
 
         if(cards.isEmpty())
             throw new IllegalStateException("Deck is empty");
@@ -33,15 +34,15 @@ public class Deck {
         return cards.remove(cards.size() - 1);
     }
 
-    public Card drawTopCard() {
+    public Card drawFirstCard() {
         return cards.remove(0);
     }
 
-    public void addBottom(Card card) {
+    public void addFirst(Card card) {
         cards.add(0, card);
     }
 
-    public void addCard(Card card) {
+    public void addLast(Card card) {
         cards.add(cards.size(), card);
     }
 
@@ -62,7 +63,7 @@ public class Deck {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < cards.size(); i++) {
-            sb.append(String.format("%-10s", cards.get(i)));
+            sb.append(String.format("%-7s", cards.get(i)));
 
             if ((i + 1) % 13 == 0) {
                 sb.append("\n");

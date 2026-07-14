@@ -1,3 +1,5 @@
+package game;
+
 import enums.Rank;
 import enums.Suit;
 import model.Card;
@@ -70,6 +72,8 @@ public class Main {
                 throw new RuntimeException("Input file is empty.");
             }
 
+            // used StringTokenizer because of the requirement to use it on the document
+            // pero, can just use line.split(",") and cardInput.trim("-") for simplicity
             StringTokenizer inputTokenizer = new StringTokenizer(line, ",");
 
             Deck playingDeck = new Deck(new ArrayList<>());
@@ -97,7 +101,7 @@ public class Main {
                     throw new RuntimeException("Duplicate Card Detected: " + key);
                 }
 
-                playingDeck.addCard(new Card(suit, rank));
+                playingDeck.addLast(new Card(suit, rank));
             }
 
             if (playingDeck.size() != DECK_SIZE) {
