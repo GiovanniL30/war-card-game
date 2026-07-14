@@ -26,4 +26,10 @@ public enum Suit {
     public int getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        String text = this.name();
+        return text.charAt(0) + text.substring(1).toLowerCase();
+    }
 }
