@@ -24,23 +24,22 @@ public enum Rank {
     }
 
     public static Rank fromString(String rank) {
-        switch (rank) {
-            case "2": return TWO;
-            case "3": return THREE;
-            case "4": return FOUR;
-            case "5": return FIVE;
-            case "6": return SIX;
-            case "7": return SEVEN;
-            case "8": return EIGHT;
-            case "9": return NINE;
-            case "10": return TEN;
-            case "J": return JACK;
-            case "Q": return QUEEN;
-            case "K": return KING;
-            case "A": return ACE;
-            default:
-                throw new IllegalArgumentException("Invalid rank: " + rank);
-        }
+        return switch (rank) {
+            case "2" -> TWO;
+            case "3" -> THREE;
+            case "4" -> FOUR;
+            case "5" -> FIVE;
+            case "6" -> SIX;
+            case "7" -> SEVEN;
+            case "8" -> EIGHT;
+            case "9" -> NINE;
+            case "10" -> TEN;
+            case "J" -> JACK;
+            case "Q" -> QUEEN;
+            case "K" -> KING;
+            case "A" -> ACE;
+            default -> throw new IllegalArgumentException("Invalid rank: " + rank);
+        };
     }
 
     public int getValue() {

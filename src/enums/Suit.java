@@ -15,14 +15,13 @@ public enum Suit {
     }
 
     public static Suit fromString(String suit) {
-        switch (suit) {
-            case "D": return DIAMONDS;
-            case "H": return HEARTS;
-            case "S": return SPADES;
-            case "C": return CLUBS;
-            default:
-                throw new IllegalArgumentException("Invalid suit: " + suit);
-        }
+        return switch (suit) {
+            case "D" -> DIAMONDS;
+            case "H" -> HEARTS;
+            case "S" -> SPADES;
+            case "C" -> CLUBS;
+            default -> throw new IllegalArgumentException("Invalid suit: " + suit);
+        };
     }
 
     public int getValue() {

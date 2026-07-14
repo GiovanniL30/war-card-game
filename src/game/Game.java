@@ -115,7 +115,7 @@ public class Game {
     }
 
     public Player getGameWinner() {
-        return players.size() == 1 ? players.get(0) : null;
+        return players.size() == 1 ? players.getFirst() : null;
     }
 
 

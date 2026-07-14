@@ -31,15 +31,15 @@ public class Deck {
         if(cards.isEmpty())
             throw new IllegalStateException("Deck is empty");
 
-        return cards.remove(cards.size() - 1);
+        return cards.removeLast();
     }
 
     public Card drawFirstCard() {
-        return cards.remove(0);
+        return cards.removeFirst();
     }
 
     public void addFirst(Card card) {
-        cards.add(0, card);
+        cards.addFirst(card);
     }
 
     public void addLast(Card card) {
