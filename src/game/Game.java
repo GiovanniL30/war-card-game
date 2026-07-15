@@ -18,17 +18,22 @@ public class Game {
         this.round = 0;
     }
 
-    private List<Player> createPlayers(int playerCount) {
-        List<Player> players = new ArrayList<>(playerCount);
+    public Player startGame() {
 
-        for (int i = 1; i <= playerCount; i++) {
-            players.add(new Player("Player " + i, new Deck(new ArrayList<>())));
+        distributeCards();
+
+        while (getActivePlayersSize() > 1) {
+            startRound();
         }
 
-        return players;
+        return getGameWinner();
     }
 
-    public void startRound() {
+    public int getRound() {
+        return round;
+    }
+
+    private void startRound() {
         round++;
 
         System.out.printf("%n============================================================%n");
@@ -88,7 +93,7 @@ public class Game {
         }
     }
 
-    public void distributeCards() {
+    private void distributeCards() {
         int currentIdx = 0;
 
         while (!playingDeck.isEmpty()) {
@@ -106,17 +111,22 @@ public class Game {
         }
     }
 
-    public int getRound() {
-        return round;
-    }
-
-    public int getActivePlayersSize() {
-        return players.size();
-    }
-
-    public Player getGameWinner() {
+    private Player getGameWinner() {
         return players.size() == 1 ? players.getFirst() : null;
     }
 
+    private int getActivePlayersSize() {
+        return players.size();
+    }
+
+    private List<Player> createPlayers(int playerCount) {
+        List<Player> players = new ArrayList<>(playerCount);
+
+        for (int i = 1; i <= playerCount; i++) {
+            players.add(new Player("Player " + i, new Deck(new ArrayList<>())));
+        }
+
+        return players;
+    }
 
 }

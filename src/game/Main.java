@@ -39,27 +39,16 @@ public class Main {
         int playerCount = getNumberInputInfiniteUntilCorrect("Enter Number of Players", MIN_PLAYERS, MAX_PLAYERS);
 
         Game game = new Game(playingDeck, playerCount);
-        game.distributeCards();
-
-        while (game.getActivePlayersSize() > 1) {
-            game.startRound();
-        }
-
-        Player gameWinner = game.getGameWinner();
+        Player gameWinner = game.startGame();
 
         printHeader("GAME OVER");
-        if (gameWinner != null) {
-            System.out.printf("Winner        : %s%n", gameWinner.getPlayerName());
-            System.out.printf("Total Rounds  : %d%n", game.getRound());
-            System.out.printf("Cards Owned   : %d%n%n", gameWinner.getDeck().size());
-            System.out.printf("Final Deck%n");
-            System.out.printf("----------%n");
-            System.out.println(gameWinner.getDeck());
-        } else {
-            System.out.printf("No winner was determined.%n");
-            System.out.printf("The game ended without a player collecting all 52 cards.%n");
-            System.out.printf("Total Rounds : %d%n", game.getRound());
-        }
+        System.out.printf("Winner        : %s%n", gameWinner.getPlayerName());
+        System.out.printf("Total Rounds  : %d%n", game.getRound());
+        System.out.printf("Cards Owned   : %d%n%n", gameWinner.getDeck().size());
+        System.out.printf("Final Deck%n");
+        System.out.printf("----------%n");
+        System.out.println(gameWinner.getDeck());
+
     }
 
     private static Deck readInitialDeck() {
