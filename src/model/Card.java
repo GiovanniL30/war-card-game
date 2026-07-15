@@ -21,6 +21,14 @@ public class Card implements Comparable<Card> {
         return this.suit.getValue();
     }
 
+    public String getRankCode() {
+        return this.rank.getCode();
+    }
+
+    public String getSuitCode() {
+        return  this.suit.getCode();
+    }
+
     @Override
     public int compareTo(Card otherCard) {
 

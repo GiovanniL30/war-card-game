@@ -16,15 +16,15 @@ public enum Rank {
     ACE(14, "A");
 
     private final int value;
-    private final String symbol;
+    private final String code;
 
-    Rank(int value, String symbol) {
+    Rank(int value, String code) {
         this.value = value;
-        this.symbol = symbol;
+        this.code = code;
     }
 
-    public static Rank fromString(String rank) {
-        return switch (rank) {
+    public static Rank fromString(String code) {
+        return switch (code) {
             case "2" -> TWO;
             case "3" -> THREE;
             case "4" -> FOUR;
@@ -38,7 +38,7 @@ public enum Rank {
             case "Q" -> QUEEN;
             case "K" -> KING;
             case "A" -> ACE;
-            default -> throw new IllegalArgumentException("Invalid rank: " + rank);
+            default -> throw new IllegalArgumentException("Invalid rank code: " + code);
         };
     }
 
@@ -46,9 +46,13 @@ public enum Rank {
         return value;
     }
 
+    public String getCode() {
+        return code;
+    }
+
     @Override
     public String toString() {
-        return symbol;
+        return code;
     }
 
 }

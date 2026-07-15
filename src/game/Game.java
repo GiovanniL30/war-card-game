@@ -57,21 +57,21 @@ public class Game {
 
         for (int i = 1; i < players.size(); i++) {
 
-            if (playedCards.get(winner).compareTo(playedCards.get(i)) < 0) {
+            if (playedCards.getCard(winner).compareTo(playedCards.getCard(i)) < 0) {
                 winner = i;
             }
 
         }
 
         //Place playedCards to the bottom of the winners deck
-        for (int i = 0; i < playedCards.size(); i++) {
-            int currIdx = (winner + i) % playedCards.size();
-            players.get(winner).getDeck().addFirst(playedCards.get(currIdx));
+        for (int i = 0; i < playedCards.cardsCount(); i++) {
+            int currIdx = (winner + i) % playedCards.cardsCount();
+            players.get(winner).getDeck().addFirst(playedCards.getCard(currIdx));
         }
 
         System.out.printf("%nRound Winner : %s%n", players.get(winner).getPlayerName());
-        System.out.printf("Winning Card  : %s%n", playedCards.get(winner));
-        System.out.printf("Cards Owned  : %d%n", players.get(winner).getDeck().size());
+        System.out.printf("Winning Card  : %s%n", playedCards.getCard(winner));
+        System.out.printf("Cards Owned  : %d%n", players.get(winner).getDeck().cardsCount());
 
         System.out.printf("%nWinner's Deck%n");
         System.out.printf("-------------%n");
@@ -89,7 +89,7 @@ public class Game {
         System.out.printf("%nRemaining Players%n");
         System.out.printf("-----------------%n");
         for (Player player : players) {
-            System.out.printf("%-10s : %2d cards%n", player.getPlayerName(), player.getDeck().size());
+            System.out.printf("%-10s : %2d cards%n", player.getPlayerName(), player.getDeck().cardsCount());
         }
     }
 

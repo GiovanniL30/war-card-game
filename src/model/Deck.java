@@ -12,7 +12,6 @@ public class Deck {
     }
 
     public void shuffle() {
-
         List<Card> original = cards;
         List<Card> shuffled = new ArrayList<>();
 
@@ -27,7 +26,6 @@ public class Deck {
     }
 
     public Card drawLastCard() {
-
         if(cards.isEmpty())
             throw new IllegalStateException("Deck is empty");
 
@@ -43,10 +41,10 @@ public class Deck {
     }
 
     public void addLast(Card card) {
-        cards.add(cards.size(), card);
+        cards.addLast(card);
     }
 
-    public int size() {
+    public int cardsCount() {
         return cards.size();
     }
 
@@ -54,7 +52,7 @@ public class Deck {
         return cards.isEmpty();
     }
 
-    public Card get(int index) {
+    public Card getCard(int index) {
         return cards.get(index);
     }
 
