@@ -10,49 +10,34 @@ public class Main {
     private static final Scanner sc = new Scanner(System.in);
 
     static void main() {
-
-        boolean run = true;
         Deck playingDeck;
 
-        while(run) {
-            do {
-                playingDeck = GameFileManager.readAndInitializeDeck();
-            } while (playingDeck == null);
+        do {
+            playingDeck = GameFileManager.readAndInitializeDeck();
+        } while (playingDeck == null);
 
-            printHeader("WAR CARD GAME");
-            System.out.println(playingDeck);
+        printHeader("WAR CARD GAME");
+        System.out.println(playingDeck);
 
-            int shuffleCount = getNumberInputInfiniteUntilCorrect("Enter Desired Shuffle Count", 1, 1000);
-            shuffleDeck(shuffleCount, playingDeck);
+        int shuffleCount = getNumberInputInfiniteUntilCorrect("Enter Desired Shuffle Count", 1, 1000);
+        shuffleDeck(shuffleCount, playingDeck);
 
-            int playerCount = getNumberInputInfiniteUntilCorrect("Enter Number of Players", 2, 8);
+        int playerCount = getNumberInputInfiniteUntilCorrect("Enter Number of Players", 2, 8);
 
-            Game game = new Game(playingDeck, playerCount);
-            Player gameWinner = game.startGame();
+        Game game = new Game(playingDeck, playerCount);
+        Player gameWinner = game.startGame();
 
-            printHeader("GAME OVER");
-            System.out.printf("Winner        : %s%n", gameWinner.getPlayerName());
-            System.out.printf("Total Rounds  : %d%n", game.getRound());
-            System.out.printf("Cards Owned   : %d%n%n", gameWinner.getDeck().cardsCount());
-            System.out.printf("Final Deck%n");
-            System.out.printf("----------%n");
-            System.out.println(gameWinner.getDeck());
+        printHeader("GAME OVER");
+        System.out.printf("Winner        : %s%n", gameWinner.getPlayerName());
+        System.out.printf("Total Rounds  : %d%n", game.getRound());
+        System.out.printf("Cards Owned   : %d%n%n", gameWinner.getDeck().cardsCount());
+        System.out.printf("Final Deck%n");
+        System.out.printf("----------%n");
+        System.out.println(gameWinner.getDeck());
 
-            printHeader("SAVE GAME RESULT");
-            System.out.println("The winning deck will be saved to a text file.");
-            GameFileManager.saveDeckToFile(gameWinner.getDeck());
-
-            printHeader("PLAY AGAIN");
-            System.out.print("\nDo you want to rerun the program? (Y/any character to end): ");
-            String input = sc.nextLine();
-
-            if(!input.trim().equalsIgnoreCase("y")) {
-                run = false;
-            } else {
-               printHeader("New Game");
-            }
-        }
-
+        printHeader("SAVE GAME RESULT");
+        System.out.println("The winning deck will be saved to a text file.");
+        GameFileManager.saveDeckToFile(gameWinner.getDeck());
     }
 
     private static void shuffleDeck(int shuffleCount, Deck playingDeck) {

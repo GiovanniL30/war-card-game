@@ -15,14 +15,14 @@ public class Game {
     public Game(Deck playingDeck, int playerCount) {
         this.playingDeck = playingDeck;
         this.players = createPlayers(playerCount);
-        this.round = 0;
+        this.round = 1;
     }
 
     public Player startGame() {
 
         distributeCards();
 
-        while (getActivePlayersSize() > 1) {
+        while (players.size() > 1) {
             startRound();
         }
 
@@ -34,8 +34,6 @@ public class Game {
     }
 
     private void startRound() {
-        round++;
-
         System.out.printf("%n============================================================%n");
         System.out.printf("ROUND %-3d%n", round);
         System.out.printf("============================================================%n");
@@ -91,6 +89,8 @@ public class Game {
         for (Player player : players) {
             System.out.printf("%-10s : %2d cards%n", player.getPlayerName(), player.getDeck().cardsCount());
         }
+
+        round++;
     }
 
     private void distributeCards() {
@@ -113,10 +113,6 @@ public class Game {
 
     private Player getGameWinner() {
         return players.size() == 1 ? players.getFirst() : null;
-    }
-
-    private int getActivePlayersSize() {
-        return players.size();
     }
 
     private List<Player> createPlayers(int playerCount) {

@@ -26,9 +26,6 @@ public class Deck {
     }
 
     public Card drawLastCard() {
-        if(cards.isEmpty())
-            throw new IllegalStateException("Deck is empty");
-
         return cards.removeLast();
     }
 
