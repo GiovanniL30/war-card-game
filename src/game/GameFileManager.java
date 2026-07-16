@@ -17,7 +17,7 @@ public class GameFileManager {
         String name = "";
 
         do {
-             name = askFilePath("Enter a file name for the output file");
+             name = askFilePath("Enter output file name");
 
              if(name.equals("input.txt")) {
                  System.out.println("You cannot override input.txt file, please enter different file name");

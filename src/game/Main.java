@@ -38,9 +38,12 @@ public class Main {
             System.out.printf("----------%n");
             System.out.println(gameWinner.getDeck());
 
+            printHeader("SAVE GAME RESULT");
+            System.out.println("The winning deck will be saved to a text file.");
             GameFileManager.saveDeckToFile(gameWinner.getDeck());
 
-            System.out.print("\nDo you want to rerun the program (y/any character to end): ");
+            printHeader("PLAY AGAIN");
+            System.out.print("\nDo you want to rerun the program? (Y/any character to end): ");
             String input = sc.nextLine();
 
             if(!input.trim().equalsIgnoreCase("y")) {
