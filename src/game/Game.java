@@ -7,6 +7,10 @@ import model.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages the flow of the card game.
+ * Handles card distribution, rounds, and determines the winner.
+ */
 public class Game {
     private final Deck playingDeck;
     private final List<Player> players;
@@ -63,7 +67,7 @@ public class Game {
 
         //Place playedCards to the bottom of the winners deck
         for (int i = 0; i < playedCards.cardsCount(); i++) {
-            int currIdx = (winner + i) % playedCards.cardsCount();
+            int currIdx = (winner + i) % playedCards.cardsCount(); // round-robin computation
             players.get(winner).getDeck().addFirst(playedCards.getCard(currIdx));
         }
 
@@ -99,7 +103,7 @@ public class Game {
         while (!playingDeck.isEmpty()) {
             Card card = playingDeck.drawFirstCard();
             players.get(currentIdx).getDeck().addLast(card);
-            currentIdx = (currentIdx + 1) % players.size();
+            currentIdx = (currentIdx + 1) % players.size(); // round-robin computation
         }
 
         System.out.printf("%n============================================================%n");

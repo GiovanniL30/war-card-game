@@ -1,0 +1,23 @@
+Simple Program Flow
+
+1. Start the program.
+2. Ask the user for the input file name (located on src/files).
+3. Read and validate the deck from the file.
+        - If invalid, ask for another file.
+4. Display the loaded deck.
+5. Asks the user for the shuffle count.
+        - Shuffle the deck.
+        - Display the shuffled deck.
+6. Ask the user for the number of players.
+7. Create the game and the players.
+8. Distribute the cards equally among the players.
+9. Start the game rounds:
+        - Each player draws one card.
+        - Determine the round winner.
+        - Give all played cards to the winner.
+        - Remove players with no cards.
+        - Repeat until only one player remains.
+10. Display the game winner, total rounds, and final deck.
+11. Asks for an output file name.
+12. Save the winner's deck to the file.
+13. End the program.

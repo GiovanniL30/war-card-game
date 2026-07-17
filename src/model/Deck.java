@@ -11,6 +11,11 @@ public class Deck {
         this.cards = cards;
     }
 
+    /**
+     * This shuffle performs a Riffle Shuffle Type
+     * <p>
+     *  It first cuts the deck in half and alternate
+     * */
     public void shuffle() {
         List<Card> original = cards;
         List<Card> shuffled = new ArrayList<>();

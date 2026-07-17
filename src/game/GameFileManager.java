@@ -8,16 +8,24 @@ import model.Deck;
 import java.io.*;
 import java.util.*;
 
+
+/**
+ * Handles saving and loading a deck of cards from text files.
+ */
 public class GameFileManager {
 
-    private final static String BASE_PATH = "files/";
+    private final static String BASE_PATH = "src/files/";
 
+    /**
+     * Saves the winner's deck to a text file.
+     * Each card is written in the format Suit-Rank (e.g. H-A).
+     */
     public static void saveDeckToFile(Deck deck) {
 
         String name = "";
 
         do {
-             name = askFilePath("Enter output file name");
+             name = askFilePath("\nEnter output file name");
 
              if(name.equals("input.txt")) {
                  System.out.println("You cannot override input.txt file, please enter different file name");
@@ -49,8 +57,12 @@ public class GameFileManager {
 
     }
 
+    /**
+     * Reads a deck from a file and validates its
+     */
     public static Deck readAndInitializeDeck() {
 
+        System.out.println("\nFiles are located under src/files path, you can just enter the file name (eg. input.txt)");
         String fileName = BASE_PATH + askFilePath("Enter a file name for the card to be loaded");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -107,8 +119,8 @@ public class GameFileManager {
         String userInput;
 
         do {
-            System.out.print("\n" + message + ": ");
-            userInput = sc.nextLine();
+            System.out.print(message + ": ");
+            userInput = sc.nextLine().trim();
 
             if(userInput.length() < 2) {
                 System.out.println("Please enter at least 2 characters");
