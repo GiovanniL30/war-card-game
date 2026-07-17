@@ -30,6 +30,10 @@ public class Deck {
         cards = shuffled;
     }
 
+    public void flipDeck() {
+        cards = cards.reversed();
+    }
+
     public Card drawLastCard() {
         return cards.removeLast();
     }

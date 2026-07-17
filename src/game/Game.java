@@ -101,7 +101,7 @@ public class Game {
         int currentIdx = 0;
 
         while (!playingDeck.isEmpty()) {
-            Card card = playingDeck.drawFirstCard();
+            Card card = playingDeck.drawLastCard();
             players.get(currentIdx).getDeck().addLast(card);
             currentIdx = (currentIdx + 1) % players.size(); // round-robin computation
         }

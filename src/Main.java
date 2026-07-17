@@ -20,6 +20,7 @@ void main() {
 
     int playerCount = getNumberInputInfiniteUntilCorrect("Enter Number of Players", 2, 8);
 
+    playingDeck.flipDeck();
     Game game = new Game(playingDeck, playerCount);
     Player gameWinner = game.startGame();
 
