@@ -63,7 +63,7 @@ public class GameFileManager {
     public static Deck readAndInitializeDeck() {
 
         System.out.println("\nFiles are located under src/files path, you can just enter the file name (eg. input.txt)");
-        String fileName = BASE_PATH + askFilePath("Enter a file name for the card to be loaded");
+        String fileName = BASE_PATH + askFilePath("Enter a file name for the cards to be loaded");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
 

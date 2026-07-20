@@ -51,7 +51,7 @@ private int getNumberInputInfiniteUntilCorrect(String message, int minValue, int
 
     while (input < minValue || input > maxValue) {
         try {
-            System.out.print(message + " (" + minValue + "-" + maxValue + "): ");
+            System.out.printf("%s (%d-%d): ", message, minValue, maxValue);
             input = Integer.parseInt(sc.nextLine().trim());
 
             if (input < minValue || input > maxValue) {
