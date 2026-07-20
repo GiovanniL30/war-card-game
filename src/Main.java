@@ -3,7 +3,7 @@ import game.GameFileManager;
 import model.Deck;
 import model.Player;
 
-private static final Scanner sc = new Scanner(System.in);
+private final Scanner sc = new Scanner(System.in);
 
 void main() {
     Deck playingDeck;
@@ -37,7 +37,7 @@ void main() {
     GameFileManager.saveDeckToFile(gameWinner.getDeck());
 }
 
-private static void shuffleDeck(int shuffleCount, Deck playingDeck) {
+private void shuffleDeck(int shuffleCount, Deck playingDeck) {
     for (int i = 0; i < shuffleCount; i++) {
         playingDeck.shuffle();
     }
@@ -45,7 +45,7 @@ private static void shuffleDeck(int shuffleCount, Deck playingDeck) {
     System.out.println(playingDeck);
 }
 
-private static int getNumberInputInfiniteUntilCorrect(String message, int minValue, int maxValue) {
+private int getNumberInputInfiniteUntilCorrect(String message, int minValue, int maxValue) {
 
     int input = 0;
 
@@ -66,7 +66,7 @@ private static int getNumberInputInfiniteUntilCorrect(String message, int minVal
     return input;
 }
 
-private static void printHeader(String title) {
+private void printHeader(String title) {
     System.out.printf("%n============================================================%n");
     System.out.printf("%s%n", title);
     System.out.printf("============================================================%n");

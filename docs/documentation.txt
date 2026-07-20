@@ -1,0 +1,39 @@
+WAR CARD GAME - GAME LOGIC
+
+1. SETUP
+   - The program reads a full 52-card deck from a text file.
+   - The user chooses how many times to shuffle the deck.
+   - The deck is flipped (reversed) so cards are dealt from the top.
+   - The user chooses the number of players (2 to 8).
+
+2. CARD DISTRIBUTION
+   - Cards are dealt one at a time to each player in order
+     (Player 1, Player 2, ... Player N, then back to Player 1).
+   - This continues until all 52 cards are distributed.
+   - Each player ends up with an equal share of the deck.
+
+3. GAME ROUNDS
+   - The game runs rounds until only one player has cards left.
+   - Each round:
+       a) Every player places one card face-up from the top of
+          their deck into a shared pile.
+       b) All played cards are compared to find the highest card.
+       c) The player who played the highest card wins the round.
+       d) All cards in the pile are given to the round winner
+          and placed at the front(bottom) of their deck.
+       e) Any player whose deck is now empty is eliminated.
+   - The round counter increases by 1 after each round.
+
+4. CARD COMPARISON
+   - Cards are compared first by rank (2 = lowest, Ace = highest).
+   - If two cards have the same rank, the suit decides the winner
+     using these values: Clubs = 1, Spades = 2, Hearts = 3,
+     Diamonds = 4.
+
+5. END OF GAME
+   - When only one player remains, that player is declared the
+     overall winner.
+   - The program displays the winner's name, total rounds played,
+     number of cards won, and the full winning deck.
+   - The winner's deck is saved to a new text file chosen by the
+     user.
