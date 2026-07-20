@@ -3,7 +3,7 @@ package model;
 import enums.Rank;
 import enums.Suit;
 
-public class Card implements Comparable<Card> {
+public class Card {
 
     private final Suit suit;
     private final Rank rank;
@@ -29,14 +29,13 @@ public class Card implements Comparable<Card> {
         return  this.suit.getCode();
     }
 
-    @Override
-    public int compareTo(Card otherCard) {
 
+    public boolean isOtherCardHigher(Card otherCard) {
         if(this.getRankValue() == otherCard.getRankValue()) {
-            return Integer.compare(this.getSuitValue(), otherCard.getSuitValue());
+            return otherCard.getSuitValue() > this.getSuitValue();
         }
 
-        return Integer.compare(this.getRankValue(), otherCard.getRankValue());
+        return otherCard.getRankValue() > this.getRankValue();
     }
 
     @Override

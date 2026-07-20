@@ -58,11 +58,9 @@ public class Game {
         int winner = 0;
 
         for (int i = 1; i < players.size(); i++) {
-
-            if (playedCards.getCard(winner).compareTo(playedCards.getCard(i)) < 0) {
+            if (playedCards.getCard(winner).isOtherCardHigher(playedCards.getCard(i))) {
                 winner = i;
             }
-
         }
 
         //Place playedCards to the bottom of the winners deck
@@ -81,11 +79,9 @@ public class Game {
 
         //Remove players with no Cards
         for (int i = players.size() - 1; i >= 0; i--) {
-
             if (players.get(i).isDeckEmpty()) {
                 players.remove(i);
             }
-
         }
 
         System.out.printf("%nRemaining Players%n");
