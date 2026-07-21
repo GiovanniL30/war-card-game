@@ -18,6 +18,8 @@ public class Game {
 
     public Game(Deck playingDeck, int playerCount) {
         this.playingDeck = playingDeck;
+        playingDeck.flipDeck();
+
         this.players = createPlayers(playerCount);
         this.round = 1;
     }
