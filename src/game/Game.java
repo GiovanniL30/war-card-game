@@ -53,7 +53,7 @@ public class Game {
 
         System.out.printf("%nPlayed Cards%n");
         System.out.printf("------------%n");
-        System.out.println(playedCards);
+        printPlayedCards(playedCards);
 
 
         //Check for Round Winner
@@ -81,8 +81,10 @@ public class Game {
 
         //Remove players with no Cards
         for (int i = players.size() - 1; i >= 0; i--) {
-            if (players.get(i).isDeckEmpty()) {
+            Player cPlayer = players.get(i);
+            if (cPlayer.isDeckEmpty()) {
                 players.remove(i);
+                System.out.printf("%n%s eliminated%n", cPlayer.getPlayerName());
             }
         }
 
@@ -125,6 +127,20 @@ public class Game {
         }
 
         return players;
+    }
+
+    private void printPlayedCards(Deck deck) {
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0 ; i < deck.cardsCount(); i++) {
+            sb.append(String.format("%s = %-5s", players.get(i).getPlayerName(), deck.getCard(i)));
+
+            if(( (i + 1) % 5) == 0) {
+                sb.append("\n");
+            }
+
+        }
+        System.out.println(sb);
     }
 
 }
