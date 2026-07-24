@@ -1,11 +1,16 @@
+import components.MainFrame;
 import game.Game;
 import game.GameFileManager;
 import model.Deck;
 import model.Player;
 
+import javax.swing.*;
+
 private final Scanner sc = new Scanner(System.in);
 
 void main() {
+
+    SwingUtilities.invokeLater(() -> new MainFrame("War Card Game"));
 
     System.out.println();
     System.out.println("""
