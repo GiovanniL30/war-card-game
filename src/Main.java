@@ -1,6 +1,11 @@
 import components.MainFrame;
+import components.panels.GameSetupPanel;
+import components.ui.CardUI;
+import enums.Rank;
+import enums.Suit;
 import game.Game;
 import game.GameFileManager;
+import model.Card;
 import model.Deck;
 import model.Player;
 
@@ -10,7 +15,14 @@ private final Scanner sc = new Scanner(System.in);
 
 void main() {
 
-    SwingUtilities.invokeLater(() -> new MainFrame("War Card Game"));
+    SwingUtilities.invokeLater(() -> {
+        MainFrame mainFrame = new MainFrame("War Card Game");
+
+        CardUI cardUI = new CardUI(new Card(Suit.CLUBS, Rank.ACE));
+        cardUI.setBounds(20, 20, 100, 145);
+
+        mainFrame.getContentPane().add(new GameSetupPanel());
+    });
 
     System.out.println();
     System.out.println("""

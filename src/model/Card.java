@@ -29,6 +29,10 @@ public class Card {
         return  this.suit.getCode();
     }
 
+    public String toImageName() {
+        return String.format("%s_%s.png", this.suit.getSuitWord(), this.rank.getCode());
+    }
+
 
     public boolean isOtherCardHigher(Card otherCard) {
         if(this.getRankValue() == otherCard.getRankValue()) {

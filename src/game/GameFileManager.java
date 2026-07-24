@@ -151,4 +151,8 @@ public class GameFileManager {
         }
 
     }
+
+    public List<Path> getFilePaths() {
+        return filePaths;
+    }
 }
