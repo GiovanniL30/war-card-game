@@ -1,21 +1,19 @@
 package enums;
 
 public enum Suit {
-    CLUBS(1,"C", "♣", "clubs"),
-    SPADES(2,"S", "♠", "spades"),
-    HEARTS(3, "H","♥", "hearts"),
-    DIAMONDS(4, "D","♦", "diamonds");
+    CLUBS(1,"C", "♣"),
+    SPADES(2,"S", "♠"),
+    HEARTS(3, "H","♥"),
+    DIAMONDS(4, "D","♦");
 
     private final int value;
     private final String code;
     private final String symbol;
-    private final String suitWord;
 
-    Suit(int value, String code, String symbol, String suitWord) {
+    Suit(int value, String code, String symbol) {
         this.value = value;
         this.code = code;
         this.symbol = symbol;
-        this.suitWord = suitWord;
     }
 
     public static Suit fromString(String code) {
@@ -34,10 +32,6 @@ public enum Suit {
 
     public String getCode() {
         return code;
-    }
-
-    public String getSuitWord() {
-        return suitWord;
     }
 
     @Override
