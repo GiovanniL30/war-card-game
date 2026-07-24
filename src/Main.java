@@ -17,6 +17,9 @@ void main() {
              ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
             """);
 
+    System.out.print("Press Enter to continue: ");
+    sc.nextLine();
+
     while (true) {
         GameFileManager fileManager = new GameFileManager();
         Deck playingDeck;
