@@ -6,7 +6,11 @@ import model.Card;
 import model.Deck;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Stream;
 
 
 /**
@@ -14,27 +18,20 @@ import java.util.*;
  */
 public class GameFileManager {
 
-    private final static String BASE_PATH = "src/files/";
+    private final String BASE_PATH = "files/";
+    private final List<Path> filePaths;
+
+    public GameFileManager() {
+        filePaths = getFolderFilePaths();
+    }
 
     /**
      * Saves the winner's deck to a text file.
      * Each card is written in the format Suit-Rank (e.g. H-A).
      */
-    public static void saveDeckToFile(Deck deck) {
+    public void saveDeckToFile(Deck deck) {
 
-        String name = "";
-
-        do {
-             name = askFilePath("\nEnter output file name");
-
-             if(name.equals("input.txt")) {
-                 System.out.println("You cannot override input.txt file, please enter different file name");
-             }
-
-        }while (name.equals("input.txt"));
-
-
-        String fileName = BASE_PATH + name;
+        String fileName = BASE_PATH + "game" + (filePaths.size() + 1);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
 
@@ -50,7 +47,7 @@ public class GameFileManager {
                 ));
             }
 
-            System.out.println("Winners Deck Saved Successfully");
+            System.out.printf("Winners Deck Saved Successfully to '%s'%n",fileName);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -60,10 +57,23 @@ public class GameFileManager {
     /**
      * Reads a deck from a file and validates its
      */
-    public static Deck readAndInitializeDeck() {
+    public Deck readAndInitializeDeck() {
 
-        System.out.println("\nFiles are located under src/files path, you can just enter the file name (eg. input.txt)");
-        String fileName = BASE_PATH + askFilePath("Enter a file name for the cards to be loaded");
+        System.out.println("========================================");
+        System.out.println("         Available Input Files");
+        System.out.println("========================================");
+        System.out.println("Files are located in the 'files' directory.");
+        System.out.println("Enter only the file name (e.g., input.txt).\n");
+
+        System.out.printf("Found %d file(s):%n", filePaths.size());
+
+        for (int i = 0; i < filePaths.size(); i++) {
+            System.out.printf("  %2d. %s%n", i + 1, filePaths.get(i).getFileName());
+        }
+
+        System.out.println("========================================");
+
+        String fileName = BASE_PATH + askFilePath();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
 
@@ -114,12 +124,12 @@ public class GameFileManager {
         }
     }
 
-    private static String askFilePath(String message) {
+    private String askFilePath() {
         Scanner sc = new Scanner(System.in);
         String userInput;
 
         do {
-            System.out.print(message + ": ");
+            System.out.print("Enter a file name for the cards to be loaded" + ": ");
             userInput = sc.nextLine().trim();
 
             if(userInput.length() < 2) {
@@ -131,4 +141,14 @@ public class GameFileManager {
         return userInput;
     }
 
+    private List<Path> getFolderFilePaths() {
+
+        try(Stream<Path> fileStream =  Files.list(Paths.get(BASE_PATH))) {
+            return fileStream.filter(Files::isRegularFile).toList();
+        }catch (IOException e) {
+            System.out.println("Failed to load folder: " +  e.getMessage());
+            return null;
+        }
+
+    }
 }

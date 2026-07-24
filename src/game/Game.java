@@ -6,12 +6,14 @@ import model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Manages the flow of the card game.
  * Handles card distribution, rounds, and determines the winner.
  */
 public class Game {
+    private final Scanner sc = new Scanner(System.in);
     private final Deck playingDeck;
     private final List<Player> players;
     private int round;
@@ -26,10 +28,21 @@ public class Game {
 
     public Player startGame() {
 
+        boolean isAutoPlay = false;
         distributeCards();
+
+        System.out.print("\nPress Enter to start the game: ");
+        sc.nextLine();
 
         while (players.size() > 1) {
             startRound();
+
+            if(!isAutoPlay) {
+                System.out.print("\nPress Enter to play the next round, or type 'auto' to enable auto-play: ");
+                String input = sc.nextLine();
+                if(input.trim().equals("auto")) isAutoPlay = true;
+            }
+
         }
 
         return getGameWinner();
@@ -40,6 +53,8 @@ public class Game {
     }
 
     private void startRound() {
+        int roundWinnerIdx = 0;
+
         System.out.printf("%n============================================================%n");
         System.out.printf("ROUND %-3d%n", round);
         System.out.printf("============================================================%n");
@@ -57,34 +72,32 @@ public class Game {
 
 
         //Check for Round Winner
-        int winner = 0;
-
         for (int i = 1; i < players.size(); i++) {
-            if (playedCards.getCard(winner).isOtherCardHigher(playedCards.getCard(i))) {
-                winner = i;
+            if (playedCards.getCard(roundWinnerIdx).isOtherCardHigher(playedCards.getCard(i))) {
+                roundWinnerIdx = i;
             }
         }
 
         //Place playedCards to the bottom of the winners deck
         for (int i = 0; i < playedCards.cardsCount(); i++) {
-            int currIdx = (winner + i) % playedCards.cardsCount(); // round-robin computation
-            players.get(winner).getDeck().addFirst(playedCards.getCard(currIdx));
+            int currIdx = (roundWinnerIdx + i) % playedCards.cardsCount(); // round-robin computation
+            players.get(roundWinnerIdx).getDeck().addFirst(playedCards.getCard(currIdx));
         }
 
-        System.out.printf("%nRound Winner : %s%n", players.get(winner).getPlayerName());
-        System.out.printf("Winning Card  : %s%n", playedCards.getCard(winner));
-        System.out.printf("Cards Owned  : %d%n", players.get(winner).getDeck().cardsCount());
+        System.out.printf("%nRound Winner : %s%n", players.get(roundWinnerIdx).getPlayerName());
+        System.out.printf("Winning Card  : %s%n", playedCards.getCard(roundWinnerIdx));
+        System.out.printf("Cards Owned  : %d%n", players.get(roundWinnerIdx).getDeck().cardsCount());
 
         System.out.printf("%nWinner's Deck%n");
         System.out.printf("-------------%n");
-        System.out.println(players.get(winner).getDeck());
+        System.out.println(players.get(roundWinnerIdx).getDeck());
 
         //Remove players with no Cards
         for (int i = players.size() - 1; i >= 0; i--) {
             Player cPlayer = players.get(i);
             if (cPlayer.isDeckEmpty()) {
                 players.remove(i);
-                System.out.printf("%n%s eliminated%n", cPlayer.getPlayerName());
+                System.out.printf("%s eliminated%n", cPlayer.getPlayerName());
             }
         }
 

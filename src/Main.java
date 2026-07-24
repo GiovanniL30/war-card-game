@@ -6,34 +6,57 @@ import model.Player;
 private final Scanner sc = new Scanner(System.in);
 
 void main() {
-    Deck playingDeck;
 
-    do {
-        playingDeck = GameFileManager.readAndInitializeDeck();
-    } while (playingDeck == null);
+    System.out.println();
+    System.out.println("""
+            ██╗    ██╗ █████╗ ██████╗      ██████╗ █████╗ ██████╗ ██████╗      ██████╗  █████╗ ███╗   ███╗███████╗
+            ██║    ██║██╔══██╗██╔══██╗    ██╔════╝██╔══██╗██╔══██╗██╔══██╗    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝
+            ██║ █╗ ██║███████║██████╔╝    ██║     ███████║██████╔╝██║  ██║    ██║  ███╗███████║██╔████╔██║█████╗
+            ██║███╗██║██╔══██║██╔══██╗    ██║     ██╔══██║██╔══██╗██║  ██║    ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝
+            ╚███╔███╔╝██║  ██║██║  ██║    ╚██████╗██║  ██║██║  ██║██████╔╝    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗
+             ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝
+            """);
 
-    printHeader("WAR CARD GAME");
-    System.out.println(playingDeck);
+    while (true) {
+        GameFileManager fileManager = new GameFileManager();
+        Deck playingDeck;
 
-    int shuffleCount = getNumberInputInfiniteUntilCorrect("Enter Desired Shuffle Count", 1, 1000);
-    shuffleDeck(shuffleCount, playingDeck);
+        do {
+            playingDeck = fileManager.readAndInitializeDeck();
+        } while (playingDeck == null);
 
-    int playerCount = getNumberInputInfiniteUntilCorrect("Enter Number of Players", 2, 8);
+        printHeader("WAR CARD GAME");
+        System.out.println(playingDeck);
 
-    Game game = new Game(playingDeck, playerCount);
-    Player gameWinner = game.startGame();
+        int shuffleCount = getNumberInputInfiniteUntilCorrect("Enter Desired Shuffle Count", 1, 1000);
+        shuffleDeck(shuffleCount, playingDeck);
 
-    printHeader("GAME OVER");
-    System.out.printf("Winner        : %s%n", gameWinner.getPlayerName());
-    System.out.printf("Total Rounds  : %d%n", game.getRound());
-    System.out.printf("Cards Owned   : %d%n%n", gameWinner.getDeck().cardsCount());
-    System.out.printf("Final Deck%n");
-    System.out.printf("----------%n");
-    System.out.println(gameWinner.getDeck());
+        int playerCount = getNumberInputInfiniteUntilCorrect("Enter Number of Players", 2, 8);
 
-    printHeader("SAVE GAME RESULT");
-    System.out.println("The winning deck will be saved to a text file.");
-    GameFileManager.saveDeckToFile(gameWinner.getDeck());
+        Game game = new Game(playingDeck, playerCount);
+        Player gameWinner = game.startGame();
+
+        printHeader("GAME OVER");
+        System.out.printf("Winner        : %s%n", gameWinner.getPlayerName());
+        System.out.printf("Total Rounds  : %d%n", game.getRound());
+        System.out.printf("Cards Owned   : %d%n%n", gameWinner.getDeck().cardsCount());
+        System.out.printf("Final Deck%n");
+        System.out.printf("----------%n");
+        System.out.println(gameWinner.getDeck());
+
+        System.out.println("The winning deck will be saved to a text file.");
+        fileManager.saveDeckToFile(gameWinner.getDeck());
+
+        System.out.print("\nWould you like to run the program again? (y/n): ");
+        String input = sc.nextLine().trim().toLowerCase();
+
+        if (input.equals("n") || input.equals("no")) {
+            break; // end the loop
+        }
+        System.out.println();
+    }
+
+    printHeader("Thank you for playing War Card Game.");
 }
 
 private void shuffleDeck(int shuffleCount, Deck playingDeck) {
