@@ -59,23 +59,27 @@ public class GameFileManager {
      */
     public Deck readAndInitializeDeck() {
 
-        System.out.println("========================================");
+        System.out.println("\n========================================");
         System.out.println("         Available Input Files");
         System.out.println("========================================");
-        System.out.println("Files are located in the 'files' directory.");
-        System.out.println("Enter only the file name (e.g., input.txt).\n");
-
-        System.out.printf("Found %d file(s):%n", filePaths.size());
 
         for (int i = 0; i < filePaths.size(); i++) {
-            System.out.printf("  %2d. %s%n", i + 1, filePaths.get(i).getFileName());
+            System.out.printf("%2d. %s%n", i + 1, filePaths.get(i).getFileName());
         }
 
         System.out.println("========================================");
+        String fileName = askFileName();
 
-        String fileName = BASE_PATH + askFilePath();
+        // try to parse number input
+        try {
+            int fileNumber = Integer.parseInt(fileName);
+            fileName = filePaths.get(fileNumber - 1).getFileName().toString();
+        }catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("\nFile number not found");
+            return null;
+        } catch (NumberFormatException _){}
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(BASE_PATH + fileName))) {
 
             String line = reader.readLine();
 
@@ -119,24 +123,24 @@ public class GameFileManager {
             return playingDeck;
 
         } catch (RuntimeException | IOException e) {
-            System.out.println("Failed to load cards: " + e.getMessage());
+            System.out.println("\nFailed to load cards: " + e.getMessage());
             return null;
         }
     }
 
-    private String askFilePath() {
+    private String askFileName() {
         Scanner sc = new Scanner(System.in);
         String userInput;
 
         do {
-            System.out.print("Enter a file name for the cards to be loaded" + ": ");
+            System.out.print("Enter the file number or filename for the cards to be loaded" + ": ");
             userInput = sc.nextLine().trim();
 
-            if(userInput.length() < 2) {
-                System.out.println("Please enter at least 2 characters");
+            if(userInput.isEmpty()) {
+                System.out.println("Please enter at least 1 character");
             }
 
-        } while (userInput.length() < 2);
+        } while (userInput.isEmpty());
 
         return userInput;
     }
