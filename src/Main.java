@@ -20,6 +20,11 @@ void main() {
     System.out.print("Press Enter to continue: ");
     sc.nextLine();
 
+    int totalGamesPlayed = 0;
+    int totalRounds = 0;
+    Map<String, Integer> playerWins = new HashMap<>();
+    List<String> gameByGameSummary = new ArrayList<>();
+
     while (true) {
         GameFileManager fileManager = new GameFileManager();
         Deck playingDeck;
@@ -50,6 +55,11 @@ void main() {
         System.out.println("The winning deck will be saved to a text file.");
         fileManager.saveDeckToFile(gameWinner.getDeck());
 
+        totalGamesPlayed++;
+        totalRounds += game.getRound();
+        playerWins.merge(gameWinner.getPlayerName(), 1, Integer::sum);
+        gameByGameSummary.add(String.format("Game %d - Winner: %s | Players: %d | Rounds: %d", totalGamesPlayed, gameWinner.getPlayerName(), playerCount, game.getRound()));
+
         System.out.print("\nWould you like to run the program again? (y/n): ");
         String input = sc.nextLine().trim().toLowerCase();
 
@@ -59,7 +69,22 @@ void main() {
         System.out.println();
     }
 
-    printHeader("Thank you for playing War Card Game.");
+    printHeader("GAME SUMMARY");
+    System.out.printf("Total Games Played : %d%n", totalGamesPlayed);
+
+    if (totalGamesPlayed > 0) {
+        System.out.printf("Average Rounds     : %.2f%n", (double) totalRounds / totalGamesPlayed);
+    }
+
+    System.out.println("\nWins Per Player");
+    System.out.println("----------------");
+    playerWins.forEach((player, wins) -> System.out.printf("%s : %d win%s%n", player, wins, wins == 1 ? "" : "s"));
+
+    System.out.println("\nGame-by-Game Results");
+    System.out.println("--------------------");
+    gameByGameSummary.forEach(System.out::println);
+
+    printHeader("Thank You for Playing War Card Game");
 }
 
 private void shuffleDeck(int shuffleCount, Deck playingDeck) {
