@@ -58,7 +58,7 @@ void main() {
         totalGamesPlayed++;
         totalRounds += game.getRound();
         playerWins.merge(gameWinner.getPlayerName(), 1, Integer::sum);
-        gameByGameSummary.add(String.format("Game %d - Winner: %s | Players: %d | Rounds: %d", totalGamesPlayed, gameWinner.getPlayerName(), playerCount, game.getRound()));
+        gameByGameSummary.add(String.format("Game %d - Winner: %s | Players: %d | Total Rounds: %d", totalGamesPlayed, gameWinner.getPlayerName(), playerCount, game.getRound()));
 
         System.out.print("\nWould you like to run the program again? (y/n): ");
         String input = sc.nextLine().trim().toLowerCase();
