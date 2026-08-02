@@ -1,6 +1,6 @@
 # War Card Game
 
-A console-based implementation of the classic War card game, built with Java 25. This project supports 2 to 8 players, riffle shuffling, automated gameplay, and persistent game history.
+A console-based implementation of the classic War card org.svi.game, built with Java 25. This project supports 2 to 8 players, riffle shuffling, automated gameplay, and persistent org.svi.game history.
 
 ## How It Works
 
@@ -21,11 +21,11 @@ A console-based implementation of the classic War card game, built with Java 25.
 
 ### Winning
 
-The game continues until only one player remains. That player is declared the winner. The winner's deck is automatically saved to a file for future use.
+The org.svi.game continues until only one player remains. That player is declared the winner. The winner's deck is automatically saved to a file for future use.
 
 ### Session Tracking
 
-After finishing a game, you can play again without restarting the program. When you quit, a session summary is displayed showing total games played, average rounds per game, and win counts per player.
+After finishing a org.svi.game, you can play again without restarting the program. When you quit, a session summary is displayed showing total games played, average rounds per org.svi.game, and win counts per player.
 
 ## Features
 
@@ -34,7 +34,7 @@ After finishing a game, you can play again without restarting the program. When 
 - Round-by-round or automatic play mode (type "auto" to skip manual round advancement)
 - Player elimination when decks run out
 - Deck validation (checks for 52 unique, correctly formatted cards)
-- Winner's deck saved to file automatically after each game
+- Winner's deck saved to file automatically after each org.svi.game
 - Session statistics tracking
 - ASCII art title screen
 
@@ -44,39 +44,39 @@ After finishing a game, you can play again without restarting the program. When 
 
 ## Running the Game
 
-Run the `Main` class. No external dependencies are required -- the project uses only the Java standard library.
+Run the `org.svi.Main` class. No external dependencies are required -- the project uses only the Java standard library.
 
 ### From the command line
 
 ```
-javac src/Main.java
-java -cp src Main
+javac src/org.svi.Main.java
+java -cp src org.svi.Main
 ```
 
 ### From IntelliJ IDEA
 
-Open the project in IntelliJ IDEA and run the `Main` class using the provided run configuration.
+Open the project in IntelliJ IDEA and run the `org.svi.Main` class using the provided run configuration.
 
 ## Project Structure
 
 ```
 src/
-  Main.java              -- Entry point
-  enums/
+  org.svi.Main.java              -- Entry point
+  org.svi.enums/
     Rank.java            -- Card rank enum (2 through Ace)
     Suit.java            -- Card suit enum (Clubs, Spades, Hearts, Diamonds)
-  model/
+  org.svi.model/
     Card.java            -- Single card representation
     Deck.java            -- Card collection with shuffle and draw operations
     Player.java          -- Player with a name and personal deck
-  game/
-    Game.java            -- Core game loop logic
+  org.svi.game/
+    Game.java            -- Core org.svi.game loop logic
     GameFileManager.java -- File input/output for deck files
 files/
   input.txt              -- Master sorted deck (52 cards)
   game2..gameN           -- Previously saved winning decks
 docs/
-  documentation.txt      -- Detailed game logic rules
+  documentation.txt      -- Detailed org.svi.game logic rules
   program_flow.txt       -- Step-by-step program flow
 ```
 

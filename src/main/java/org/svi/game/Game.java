@@ -1,15 +1,15 @@
-package game;
+package org.svi.game;
 
-import model.Card;
-import model.Deck;
-import model.Player;
+import org.svi.model.Card;
+import org.svi.model.Deck;
+import org.svi.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * Manages the flow of the card game.
+ * Manages the flow of the card Game.
  * Handles card distribution, rounds, and determines the winner.
  */
 public class Game {
@@ -31,7 +31,7 @@ public class Game {
         boolean isAutoPlay = false;
         distributeCards();
 
-        System.out.print("\nPress Enter to start the game: ");
+        System.out.print("\nPress Enter to start the Game: ");
         sc.nextLine();
 
         while (players.size() > 1) {

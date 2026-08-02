@@ -1,4 +1,4 @@
-package enums;
+package org.svi.enums;
 
 public enum Rank {
     TWO(2, "2"),

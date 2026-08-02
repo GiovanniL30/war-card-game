@@ -1,4 +1,7 @@
-package model;
+package org.svi.model;
+
+import org.svi.enums.Rank;
+import org.svi.enums.Suit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,18 @@ public class Deck {
 
     public Card getCard(int index) {
         return cards.get(index);
+    }
+
+    public static Deck buildDeck() {
+        List<Card> cards = new ArrayList<>(52);
+
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
+                cards.add(new Card(suit, rank));
+            }
+        }
+
+        return new Deck(cards);
     }
 
     @Override

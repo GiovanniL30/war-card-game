@@ -1,0 +1,8 @@
+org\svi\game\Game.class
+org\svi\game\GameFileManager.class
+org\svi\model\Deck.class
+org\svi\enums\Suit.class
+org\svi\Main.class
+org\svi\model\Card.class
+org\svi\model\Player.class
+org\svi\enums\Rank.class

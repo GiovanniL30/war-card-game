@@ -1,4 +1,4 @@
-package model;
+package org.svi.model;
 
 public class Player {
 

@@ -1,7 +1,7 @@
-package model;
+package org.svi.model;
 
-import enums.Rank;
-import enums.Suit;
+import org.svi.enums.Rank;
+import org.svi.enums.Suit;
 
 public class Card {
 
@@ -26,12 +26,12 @@ public class Card {
     }
 
     public String getSuitCode() {
-        return  this.suit.getCode();
+        return this.suit.getCode();
     }
 
 
     public boolean isOtherCardHigher(Card otherCard) {
-        if(this.getRankValue() == otherCard.getRankValue()) {
+        if (this.getRankValue() == otherCard.getRankValue()) {
             return otherCard.getSuitValue() > this.getSuitValue();
         }
 
@@ -40,7 +40,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "|" + rank + suit + "|";
+        return "|" + rank + "-" + suit + "|";
     }
 
 }

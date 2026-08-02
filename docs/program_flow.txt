@@ -9,15 +9,15 @@ Simple Program Flow
         - Shuffle the deck.
         - Display the shuffled deck.
 6. Ask the user for the number of players.
-7. Create the game and the players.
+7. Create the org.svi.game and the players.
 8. Distribute the cards equally among the players.
-9. Start the game rounds:
+9. Start the org.svi.game rounds:
         - Each player draws one card.
         - Determine the round winner.
         - Give all played cards to the winner.
         - Remove players with no cards.
         - Repeat until only one player remains.
-10. Display the game winner, total rounds, and final deck.
+10. Display the org.svi.game winner, total rounds, and final deck.
 11. Asks for an output file name.
 12. Save the winner's deck to the file.
 13. End the program.

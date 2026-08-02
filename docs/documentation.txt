@@ -13,7 +13,7 @@ WAR CARD GAME - GAME LOGIC
    - Each player ends up with an equal share of the deck.
 
 3. GAME ROUNDS
-   - The game runs rounds until only one player has cards left.
+   - The org.svi.game runs rounds until only one player has cards left.
    - Each round:
        a) Every player places one card face-up from the top of
           their deck into a shared pile.

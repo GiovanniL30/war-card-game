@@ -1,19 +1,17 @@
-package enums;
+package org.svi.enums;
 
 public enum Suit {
-    CLUBS(1,"C", "♣"),
-    SPADES(2,"S", "♠"),
-    HEARTS(3, "H","♥"),
-    DIAMONDS(4, "D","♦");
+    CLUBS(1,"C"),
+    SPADES(2,"S"),
+    HEARTS(3, "H"),
+    DIAMONDS(4, "D");
 
     private final int value;
     private final String code;
-    private final String symbol;
 
-    Suit(int value, String code, String symbol) {
+    Suit(int value, String code) {
         this.value = value;
         this.code = code;
-        this.symbol = symbol;
     }
 
     public static Suit fromString(String code) {
@@ -36,6 +34,6 @@ public enum Suit {
 
     @Override
     public String toString() {
-        return symbol;
+        return getCode();
     }
 }

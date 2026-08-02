@@ -1,9 +1,9 @@
-package game;
+package org.svi.game;
 
-import enums.Rank;
-import enums.Suit;
-import model.Card;
-import model.Deck;
+import org.svi.enums.Rank;
+import org.svi.enums.Suit;
+import org.svi.model.Card;
+import org.svi.model.Deck;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -30,28 +30,29 @@ public class GameFileManager {
      * Each card is written in the format Suit-Rank (e.g. H-A).
      */
     public void saveDeckToFile(Deck deck) {
+        try {
+            Path directory = Paths.get(BASE_PATH);
+            Files.createDirectories(directory);
 
-        String fileName = BASE_PATH + "game" + (filePaths.size() + 1);
+            String fileName = directory.resolve("game" + (filePaths.size() + 1) + ".txt").toString();
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(fileName))) {
 
-            for (int i = 0; i < deck.cardsCount(); i++) {
+                for (int i = 0; i < deck.cardsCount(); i++) {
 
-                Card currCard = deck.getCard(i);
-                boolean isLastItem = i == deck.cardsCount() - 1;
+                    Card currCard = deck.getCard(i);
+                    boolean isLastItem = i == deck.cardsCount() - 1;
 
-                writer.append(String.format("%s-%s%s",
-                        currCard.getSuitCode(),
-                        currCard.getRankCode(),
-                        isLastItem ? "" : ","
-                ));
+                    writer.write(String.format("%s-%s%s",
+                            currCard.getSuitCode(),
+                            currCard.getRankCode(),
+                            isLastItem ? "" : ","));
+                }
             }
-
-            System.out.printf("Winners Deck Saved Successfully to '%s'%n",fileName);
+            System.out.printf("Winner's deck saved successfully to '%s'%n", fileName);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.err.println("Failed to save deck: " + e.getMessage());
         }
-
     }
 
     /**
@@ -128,6 +129,10 @@ public class GameFileManager {
         }
     }
 
+    public int getAvailableFilesLength() {
+        return filePaths.size();
+    }
+
     private String askFileName() {
         Scanner sc = new Scanner(System.in);
         String userInput;
@@ -146,12 +151,11 @@ public class GameFileManager {
     }
 
     private List<Path> getFolderFilePaths() {
-
         try(Stream<Path> fileStream =  Files.list(Paths.get(BASE_PATH))) {
             return fileStream.filter(Files::isRegularFile).toList();
         }catch (IOException e) {
             System.out.println("Failed to load folder: " +  e.getMessage());
-            return null;
+            return new ArrayList<>();
         }
 
     }
