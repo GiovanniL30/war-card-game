@@ -154,7 +154,6 @@ public class GameFileManager {
         try(Stream<Path> fileStream =  Files.list(Paths.get(BASE_PATH))) {
             return fileStream.filter(Files::isRegularFile).toList();
         }catch (IOException e) {
-            System.out.println("Failed to load folder: " +  e.getMessage());
             return new ArrayList<>();
         }
 

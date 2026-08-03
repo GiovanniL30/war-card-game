@@ -146,7 +146,7 @@ public class Game {
         StringBuilder sb = new StringBuilder();
 
         for(int i = 0 ; i < deck.cardsCount(); i++) {
-            sb.append(String.format("%s = %-5s", players.get(i).getPlayerName(), deck.getCard(i)));
+            sb.append(String.format("%s = %-5s ", players.get(i).getPlayerName(), deck.getCard(i)));
 
             if(( (i + 1) % 5) == 0) {
                 sb.append("\n");

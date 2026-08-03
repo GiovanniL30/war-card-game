@@ -1,10 +1,10 @@
 package org.svi.enums;
 
 public enum Suit {
-    CLUBS(1,"C"),
-    SPADES(2,"S"),
+    DIAMONDS(4, "D"),
     HEARTS(3, "H"),
-    DIAMONDS(4, "D");
+    SPADES(2,"S"),
+    CLUBS(1,"C");
 
     private final int value;
     private final String code;
