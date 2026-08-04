@@ -21,6 +21,9 @@ public class GameFileManager {
     private final String BASE_PATH = "files/";
     private final List<Path> filePaths;
 
+    /**
+     * Creating a new instance of this class checks all available files in the "files" folder
+     * */
     public GameFileManager() {
         filePaths = getFolderFilePaths();
     }

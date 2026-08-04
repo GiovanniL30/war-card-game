@@ -20,7 +20,7 @@ public class Game {
 
     public Game(Deck playingDeck, int playerCount) {
         this.playingDeck = playingDeck;
-        playingDeck.flipDeck();
+        playingDeck.flipDeck(); // mimics the face down of the whole deck
 
         this.players = createPlayers(playerCount);
         this.round = 1;
@@ -48,41 +48,14 @@ public class Game {
         return getGameWinner();
     }
 
-    public int getRound() {
-        return round;
-    }
-
     private void startRound() {
-        int roundWinnerIdx = 0;
-
         System.out.printf("%n============================================================%n");
         System.out.printf("ROUND %-3d%n", round);
         System.out.printf("============================================================%n");
 
-        // Player Draw Cards
-        Deck playedCards = new Deck(new ArrayList<>());
-
-        for (Player player : players) {
-            playedCards.addLast(player.getDeck().drawLastCard());
-        }
-
-        System.out.printf("%nPlayed Cards%n");
-        System.out.printf("------------%n");
-        printPlayedCards(playedCards);
-
-
-        //Check for Round Winner
-        for (int i = 1; i < players.size(); i++) {
-            if (playedCards.getCard(roundWinnerIdx).isOtherCardHigher(playedCards.getCard(i))) {
-                roundWinnerIdx = i;
-            }
-        }
-
-        //Place playedCards to the bottom of the winners deck
-        for (int i = 0; i < playedCards.cardsCount(); i++) {
-            int currIdx = (roundWinnerIdx + i) % playedCards.cardsCount(); // round-robin computation
-            players.get(roundWinnerIdx).getDeck().addFirst(playedCards.getCard(currIdx));
-        }
+        Deck playedCards = drawCards();
+        int roundWinnerIdx = getRoundWinnerIdx(playedCards);
+        winnerCollectPlayedCards(playedCards, roundWinnerIdx);
 
         System.out.printf("%nRound Winner : %s%n", players.get(roundWinnerIdx).getPlayerName());
         System.out.printf("Winning Card  : %s%n", playedCards.getCard(roundWinnerIdx));
@@ -92,14 +65,7 @@ public class Game {
         System.out.printf("-------------%n");
         System.out.println(players.get(roundWinnerIdx).getDeck());
 
-        //Remove players with no Cards
-        for (int i = players.size() - 1; i >= 0; i--) {
-            Player cPlayer = players.get(i);
-            if (cPlayer.isDeckEmpty()) {
-                players.remove(i);
-                System.out.printf("%s eliminated%n", cPlayer.getPlayerName());
-            }
-        }
+        eliminatePlayers();
 
         System.out.printf("%nRemaining Players%n");
         System.out.printf("-----------------%n");
@@ -110,6 +76,67 @@ public class Game {
         round++;
     }
 
+    public int getRound() {
+        return round;
+    }
+
+    /**
+     * Returns index of the player with the highest played card
+     * */
+    private int getRoundWinnerIdx (Deck playedCards) {
+        int roundWinnerIdx = 0;
+        for (int i = 1; i < players.size(); i++) {
+            if (playedCards.getCard(roundWinnerIdx).isOtherCardHigher(playedCards.getCard(i))) {
+                roundWinnerIdx = i;
+            }
+        }
+        return roundWinnerIdx;
+    }
+
+    /**
+     * Round-robin card collection starting from the winners index
+     * */
+    private void winnerCollectPlayedCards (Deck playedCards, int roundWinnerIdx ) {
+        //Place playedCards to the bottom of the winners deck
+        for (int i = 0; i < playedCards.cardsCount(); i++) {
+            int currIdx = (roundWinnerIdx + i) % playedCards.cardsCount(); // round-robin computation
+            players.get(roundWinnerIdx).getDeck().addFirst(playedCards.getCard(currIdx));
+        }
+    }
+
+    /**
+     * Returns a played cards deck
+     * */
+    private Deck drawCards() {
+        Deck playedCards = new Deck(new ArrayList<>());
+
+        for (Player player : players) {
+            playedCards.addLast(player.getDeck().drawLastCard());
+        }
+
+        System.out.printf("%nPlayed Cards%n");
+        System.out.printf("------------%n");
+        printPlayedCards(playedCards);
+
+        return  playedCards;
+    }
+
+    /**
+     * Remove players with no Cards
+     * */
+    private void eliminatePlayers() {
+        for (int i = players.size() - 1; i >= 0; i--) {
+            Player cPlayer = players.get(i);
+            if (cPlayer.isDeckEmpty()) {
+                players.remove(i);
+                System.out.printf("%s eliminated%n", cPlayer.getPlayerName());
+            }
+        }
+    }
+
+    /**
+     * Round-robin card distribution until the deck becomes empty
+     * */
     private void distributeCards() {
         int currentIdx = 0;
 
